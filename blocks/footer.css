@@ -11,3 +11,12 @@
   font-weight: 400;
   line-height: 1.21;
 }
+
+@media screen and (max-width: 480px) {
+  .footer__author {
+    padding: 0 0 36px;
+    width: 282px;
+    height: 14px;
+    margin: 48px auto 36px;
+  }
+}
