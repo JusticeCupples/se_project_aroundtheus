@@ -1,14 +1,17 @@
 @media screen and (max-width: 480px) {
-  .header{
+  .header {
     width: 100%;
   }
-  .header__image{
+
+  .header__image {
     padding-left: 27px;
   }
+
   .profile {
     flex-direction: column;
     width: 100%;
   }
+
   .profile__info {
     display: flex;
     justify-content: center;
@@ -19,6 +22,7 @@
     padding: 30px 0 0 0;
     margin: 0 auto;
   }
+
   .profile__title {
     padding-right: 10px;
     font-size: 22px;
@@ -28,13 +32,14 @@
   .profile__description {
     width: 100%;
     text-align: center;
-    margin-bottom: 36px
+    margin-bottom: 36px;
   }
 
-  .profile__edit-button{
+  .profile__edit-button {
     max-width: 18px;
     height: 18px;
   }
+
   .profile__add-button {
     width: 100%;
     width: 282px;
@@ -42,21 +47,21 @@
     margin: 36px 0 0 0;
   }
 
-  .footer__author{
+  .footer__author {
     padding: 0 0 36px;
     width: 282px;
     height: 14px;
     margin: 48px auto 36px;
   }
-  .page__content{
+
+  .page__content {
     max-width: 282px;
   }
 }
 
 @media screen and (max-width: 900px) {
-    .page__content{
-        max-width: 600px;
-        margin: 0 auto;
-    }
+  .page__content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
 }
-
