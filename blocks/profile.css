@@ -1,0 +1,39 @@
+.profile {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.profile__image {
+  border-radius: 50%;
+  max-width: 120px;
+   height: 120px;
+}
+
+.profile__info {
+  display: grid;
+  grid-template-areas:
+    "title button"
+    "description description";
+  grid-template-columns: minmax(auto, 391px) auto;
+  padding-left: 30px
+}
+
+.profile__title {
+  font-family: "Inter";
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 1.14;
+  margin: 0;
+  grid-area: title;
+}
+
+.profile__description {
+  font-family: "Inter";
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.21;
+  text-align: left;
+  margin-top: 7px;
+  grid-area: description;
+}
