@@ -12,6 +12,12 @@
   margin: 0;
 }
 
+@media screen and (min-width: 1173px) {
+  .footer {
+    width: 926px;
+  }
+}
+
 @media screen and (max-width: 775px) {
   .footer {
     width: 282px;
@@ -20,14 +26,12 @@
 
 @media screen and (max-width: 480px) {
   .footer {
-    width: 282px;
     padding: 0;
-    margin: 0 auto 0;
+    margin: 48px auto;
   }
 
   .footer__author {
     padding: 0;
-    margin: 48px auto 0;
     font-size: 14px;
   }
 }
