@@ -11,21 +11,8 @@
 }
 
 .page__section {
-  max-width: 880px;
+  max-width: 75vw;
   width: 100%;
   position: relative;
   margin: 0 auto;
-}
-
-@media screen and (max-width: 480px) {
-  .page__content {
-    max-width: 282px;
-  }
-}
-
-@media screen and (max-width: 900px) {
-  .page__content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
 }
