@@ -22,4 +22,4 @@ Good luck and have fun!
 
 **video**
 
-**I will add this after my first submission and corrections**
+* [Link to the video on Google Drive](https://drive.google.com/file/d/1LyhEPkn22ZushDKTXeAPBHdIE-27Nlwv/view?usp=sharing)
