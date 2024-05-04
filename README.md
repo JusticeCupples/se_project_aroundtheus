@@ -23,7 +23,7 @@ Good luck and have fun!
 **Github Pages**
 
 * [Link to the project on Github Pages](
-    will add after project accetped 
+    [will add after project accetped ](https://justicecupples.github.io/se_project_aroundtheus/)
 )
 
 **video**
