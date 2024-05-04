@@ -22,9 +22,3 @@
     padding-bottom: 36px;
   }
 }
-
-@media screen and (max-width: 320px) {
-  .page__content {
-    padding-bottom: 18px;
-  }
-}

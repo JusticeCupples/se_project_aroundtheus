@@ -91,13 +91,13 @@
     font-size: 30px;
     line-height: 1.21;
     justify-content: center;
-    display: flex;
   }
 
   .profile__edit-button {
     display: flex;
     padding: 0;
     margin-left: 0;
+    margin-right: auto;
   }
 
   .profile__description {
@@ -105,8 +105,6 @@
     margin-bottom: 36px;
     width: 380px;
     flex-wrap: wrap;
-    display: flex;
-    justify-content: center;
   }
 
   .profile__add-button {
@@ -123,7 +121,6 @@
 
   .profile__title {
     font-size: 22px;
-    line-height: 1.21;
   }
 
   .profile__description {
