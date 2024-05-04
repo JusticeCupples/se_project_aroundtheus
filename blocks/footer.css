@@ -1,6 +1,7 @@
 .footer {
   margin: 67px auto 0;
   width: 604px;
+  padding-bottom: 60px;
 }
 
 .footer__author {
@@ -26,7 +27,7 @@
 
 @media screen and (max-width: 480px) {
   .footer {
-    padding: 0;
+    padding-bottom: 36px;
     margin-top: 48px;
   }
 

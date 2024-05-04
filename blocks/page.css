@@ -7,7 +7,6 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 60px;
 }
 
 .page__section {
@@ -15,10 +14,4 @@
   width: 100%;
   position: relative;
   margin: 0 auto;
-}
-
-@media screen and (max-width: 480px) {
-  .page__content {
-    padding-bottom: 36px;
-  }
 }
