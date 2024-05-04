@@ -27,7 +27,7 @@
 @media screen and (max-width: 480px) {
   .footer {
     padding: 0;
-    margin: 48px auto;
+    margin-top: 48px;
   }
 
   .footer__author {

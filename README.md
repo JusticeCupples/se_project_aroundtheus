@@ -20,6 +20,12 @@ The way you'll do this at work is by exporting images directly from Figma — we
   
 Good luck and have fun!
 
+**Github Pages**
+
+* [Link to the project on Github Pages](
+    will add after project accetped 
+)
+
 **video**
 
 * [Link to the video on Google Drive](https://drive.google.com/file/d/1LyhEPkn22ZushDKTXeAPBHdIE-27Nlwv/view?usp=sharing)
