@@ -92,7 +92,7 @@
 
 @media screen and (max-width: 650px) {
   .modal__close {
-    left: 94%;
+    left: 90%;
     bottom: calc(100% + 13.62px);
     width: 26px;
     height: 26px;
@@ -100,5 +100,10 @@
 
   .modal__heading {
     margin-bottom: 75px;
+    font-size: 18px;
+  }
+
+  .modal__input {
+    margin-bottom: 45px;
   }
 }

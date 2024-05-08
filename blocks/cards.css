@@ -1,6 +1,7 @@
 .cards {
   text-align: left;
   margin-top: 51px;
+  max-width: 880px;
 }
 
 .cards__list {

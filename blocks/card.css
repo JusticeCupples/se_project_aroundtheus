@@ -3,7 +3,7 @@
   flex-direction: column;
   border-radius: 10px;
   overflow: hidden;
-  max-width: 880px;
+
 }
 
 .card__like-button:hover {
