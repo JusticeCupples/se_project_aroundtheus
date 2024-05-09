@@ -69,9 +69,14 @@ function renderCard(cardData, wrapper) {
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImageEl = cardElement.querySelector(".card__image");
+  const cardTextEl = cardElement.querySelector(".card__text");
+  const likeButton = cardElement.querySelector(".card__like-button");
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle("card__like-button_active");
+  });
+
   cardImageEl.setAttribute("src", cardData.link);
   cardImageEl.setAttribute("alt", cardData.alt);
-  const cardTextEl = cardElement.querySelector(".card__text");
   cardTextEl.textContent = cardData.name;
   return cardElement;
 }
@@ -135,9 +140,5 @@ addCardModalCloseButton.addEventListener("click", () =>
 //Card Formating
 initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
 
-const likeButtons = document.querySelectorAll(".card__like-button");
-likeButtons.forEach((likeButton) => {
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_active");
-  });
-});
+// likeButton.addEventListener("click", () => {
+//  likeButton.classList.toggle("card__like-button_active");
