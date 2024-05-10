@@ -55,6 +55,9 @@ const profileDescriptionInput = document.querySelector(
 const imageModal = document.querySelector("#modal-image-inspect");
 const imageSelect = document.querySelectorAll("#card-image");
 const imageCloseButton = document.querySelector("#modal-close-image");
+const modalImage = document.querySelector("#modal-card-image")
+const imageFooter = document.querySelector(".modal__image_footer")
+
 //template creator
 const addCardFormElement = modalAddCard.querySelector("#add-card-form");
 const profileEditForm = profileEditModal.querySelector("#add-profile-form");
@@ -95,8 +98,12 @@ function getCardElement(cardData) {
   const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector("#card-delete-button");
 
+
   cardImageEl.addEventListener("click", () => {
     openModal(imageModal);
+    imageFooter.textContent = cardData.name;
+    modalImage.setAttribute("src", cardData.link);
+    modalImage.setAttribute("alt", cardData.alt);
   });
   
 
