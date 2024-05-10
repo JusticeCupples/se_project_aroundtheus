@@ -164,10 +164,5 @@ addCardModalCloseButton.addEventListener("click", () =>
   closeModal(modalAddCard)
 );
 
-//image modal button
-
-
-
-
 //Card Formating
 initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
