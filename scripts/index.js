@@ -98,8 +98,6 @@ function getCardElement(cardData) {
     openModal(imageModal);
   });
 
-  
-
   imageCloseButton.addEventListener("click", () => closeModal(imageModal));
 
   deleteButton.addEventListener("click", () => {
