@@ -127,6 +127,7 @@ function getCardElement(cardData) {
 
 function handleProfileEditSubmit(e) {
   e.preventDefault();
+  profileName.clear
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
   closeModal(profileEditModal);
@@ -152,8 +153,8 @@ addCardFormElement.addEventListener("submit", handleAddCardSubmit);
 //edit profile button
 
 profileEditButton.addEventListener("click", () => {
-  profileNameInput.value = profileName.textContent;
-  profileDescriptionInput.value = profileDescription.textContent;
+  profileNameInput.value = "";
+  profileDescriptionInput.value = "";
   openModal(profileEditModal);
 });
 
@@ -164,6 +165,8 @@ profileModalCloseButton.addEventListener("click", () =>
 //Add New Card Button
 
 addNewCardButton.addEventListener("click", () => {
+  cardTitleInput.value = "";
+  cardUrlInput.value = "";
   openModal(modalAddCard);
 });
 
