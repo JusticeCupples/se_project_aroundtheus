@@ -54,7 +54,7 @@ const profileDescriptionInput = document.querySelector(
 // image modal
 const imageModal = document.querySelector("#modal-image-inspect");
 const imageSelect = document.querySelectorAll("#card-image");
-const imageCloseButton = document.querySelector("#modal-close-image");
+const imageCloseButton = document.querySelector("#modal-close-button");
 const modalImage = document.querySelector("#modal-card-image")
 const imageFooter = document.querySelector(".modal__image_footer")
 
