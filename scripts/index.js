@@ -82,7 +82,7 @@ function getCardElement(cardData) {
   const deleteButton = cardElement.querySelector("#card-delete-button");
 
   deleteButton.addEventListener("click", () => {
-    deleteButton.classList.remove();
+    deleteButton.cardElement.remove();
   });
 
   likeButton.addEventListener("click", () => {
