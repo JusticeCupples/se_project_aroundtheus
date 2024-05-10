@@ -24,6 +24,18 @@
   background-image: url(../images/filled-heart.svg);
 }
 
+.card__delete-button {
+  background: transparent url(../images/Trash.svg) center no-repeat;
+  width: 18px;
+  height: 19.3px;
+  border: hidden;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
 .card__image {
   width: 282px;
   height: 282px;

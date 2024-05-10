@@ -61,6 +61,14 @@ const cardUrlInput = addCardFormElement.querySelector("#profile-url-input");
 /*                                  Functions                                 */
 /* -------------------------------------------------------------------------- */
 
+function closeModal(modal) {
+  modal.classList.remove("modal_opened");
+}
+
+function openModal(modal) {
+  modal.classList.add("modal_opened");
+}
+
 function renderCard(cardData, wrapper) {
   const cardElement = getCardElement(cardData);
   wrapper.prepend(cardElement);
@@ -71,6 +79,12 @@ function getCardElement(cardData) {
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardTextEl = cardElement.querySelector(".card__text");
   const likeButton = cardElement.querySelector(".card__like-button");
+  const deleteButton = cardElement.querySelector("#card-delete-button");
+
+  deleteButton.addEventListener("click", () => {
+    deleteButton.classList.remove();
+  });
+
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_active");
   });
@@ -81,13 +95,7 @@ function getCardElement(cardData) {
   return cardElement;
 }
 
-function closeModal(modal) {
-  modal.classList.remove("modal_opened");
-}
 
-function openModal(modal) {
-  modal.classList.add("modal_opened");
-}
 
 /* -------------------------------------------------------------------------- */
 /*                               Event Handlers                               */
@@ -139,6 +147,3 @@ addCardModalCloseButton.addEventListener("click", () =>
 
 //Card Formating
 initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
-
-// likeButton.addEventListener("click", () => {
-//  likeButton.classList.toggle("card__like-button_active");
