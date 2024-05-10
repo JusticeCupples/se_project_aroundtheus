@@ -20,6 +20,11 @@
   transition-delay:0s;
 }
 
+#modal-image-inspect-card {
+  max-width: 75vw;
+  max-height: 75vh;
+}
+
 
 .modal__container {
   position: relative;
