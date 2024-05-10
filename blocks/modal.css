@@ -58,7 +58,7 @@
 
 }
 
-#modal-button {
+#modal-standard-button {
   background-image: url("../images/close.svg");
   border: none;
   background-color: transparent;
@@ -146,7 +146,7 @@
 }
 
 @media screen and (max-width: 650px) {
-  #modal-button {
+  #modal-standard-button {
     left: 90%;
     bottom: calc(100% + 13.62px);
     width: 26px;
