@@ -167,7 +167,7 @@ addCardModalCloseButton.addEventListener("click", () =>
 //Image close button
 
 imageCloseButton.addEventListener("click", () => {
-  imageModal.classList.add("modal_image_close");
+  imageModal.classList.remove("modal_opened");
 });
 
 //Card Formating
