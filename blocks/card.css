@@ -3,11 +3,12 @@
   flex-direction: column;
   border-radius: 10px;
   overflow: hidden;
+  position: relative;
 }
 
 .card__like-button:hover {
   transition: 0.5s ease-in;
-  opacity: 50%;
+  opacity: 60%;
 }
 
 .card__like-button {
@@ -24,16 +25,22 @@
   background-image: url(../images/filled-heart.svg);
 }
 
+.card__delete-button:hover {
+  transition: 0.5s ease-in;
+  opacity: 50%;
+}
+
 .card__delete-button {
   background: transparent url(../images/Trash.svg) center no-repeat;
+  transition-timing-function: ease-out;
+  transition: 2s;
   width: 18px;
   height: 19.3px;
   border: hidden;
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
+  top: 18px;
+  right: 15px;
 }
 
 .card__image {
