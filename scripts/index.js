@@ -35,21 +35,24 @@ const initialCards = [
 /*                                  Elements                                  */
 /* -------------------------------------------------------------------------- */
 
-const profileEditButton = document.querySelector(".profile__edit-button");
+//add card modal
 const addNewCardButton = document.querySelector(".profile__add-button");
-const profileEditModal = document.querySelector("#modal-edit-profile");
 const modalAddCard = document.querySelector("#modal-add-card");
-const profileModalCloseButton = profileEditModal.querySelector(".modal__close");
 const addCardModalCloseButton = modalAddCard.querySelector(".modal__close");
+
+// edit modal
+const profileEditButton = document.querySelector(".profile__edit-button");
+const profileEditModal = document.querySelector("#modal-edit-profile");
+const profileModalCloseButton = profileEditModal.querySelector(".modal__close");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
-const addCardFormElement = modalAddCard.querySelector("#add-card-form");
 const profileNameInput = document.querySelector("#profile-name-input");
 const profileDescriptionInput = document.querySelector(
   "#profile-description-input"
 );
-const editCardTitle = document.querySelector("#profile-title-input");
-const editCardUrl = document.querySelector("#profile-url-input");
+
+//template creator
+const addCardFormElement = modalAddCard.querySelector("#add-card-form");
 const profileEditForm = profileEditModal.querySelector("#add-profile-form");
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
@@ -61,6 +64,8 @@ const cardUrlInput = addCardFormElement.querySelector("#profile-url-input");
 /*                                  Functions                                 */
 /* -------------------------------------------------------------------------- */
 
+//open/close function
+
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
 }
@@ -69,10 +74,14 @@ function openModal(modal) {
   modal.classList.add("modal_opened");
 }
 
+//render cards
+
 function renderCard(cardData, wrapper) {
   const cardElement = getCardElement(cardData);
   wrapper.prepend(cardElement);
 }
+
+// card elements function
 
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
@@ -94,8 +103,6 @@ function getCardElement(cardData) {
   cardTextEl.textContent = cardData.name;
   return cardElement;
 }
-
-
 
 /* -------------------------------------------------------------------------- */
 /*                               Event Handlers                               */
