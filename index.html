@@ -102,15 +102,16 @@
       </div>
     </div>
     <!-- Add Image Inspect Modal -->
-    <div class="modal" id="modal-image-inspect-card">
+    <div class="modal" id="modal-image-inspect">
       <div class="modal__container">
+        <button class="modal__close" type="button" title="close"></button>
         <p class="modal__image_inspect_card"></p>
       </div>
     </div>
     <!-- template -->
     <template id="card-template">
       <li class="card">
-        <img class="card__image" src="" alt="" />
+        <img class="card__image" src="" alt="" id="card-image"/>
         <button
         class="card__delete-button"
         id="card-delete-button"

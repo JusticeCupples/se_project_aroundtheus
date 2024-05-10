@@ -51,6 +51,11 @@ const profileDescriptionInput = document.querySelector(
   "#profile-description-input"
 );
 
+// image modal
+const imageModal = document.querySelector("#modal-image-inspect");
+const imageSelect = document.querySelectorAll("#card-image");
+const imageCloseButton = document.querySelector(".modal__close");
+
 //template creator
 const addCardFormElement = modalAddCard.querySelector("#add-card-form");
 const profileEditForm = profileEditModal.querySelector("#add-profile-form");
@@ -90,6 +95,10 @@ function getCardElement(cardData) {
   const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector("#card-delete-button");
 
+  cardImageEl.addEventListener("click", () => {
+    openModal(imageModal);
+  });
+
   deleteButton.addEventListener("click", () => {
     cardElement.remove();
   });
@@ -127,6 +136,13 @@ function handleAddCardSubmit(e) {
 /*                               Event Listeners                              */
 /* -------------------------------------------------------------------------- */
 
+//Form Listeners
+
+profileEditForm.addEventListener("submit", handleProfileEditSubmit);
+addCardFormElement.addEventListener("submit", handleAddCardSubmit);
+
+//edit profile button
+
 profileEditButton.addEventListener("click", () => {
   profileNameInput.value = profileName.textContent;
   profileDescriptionInput.value = profileDescription.textContent;
@@ -137,11 +153,6 @@ profileModalCloseButton.addEventListener("click", () =>
   closeModal(profileEditModal)
 );
 
-//Form Listeners
-
-profileEditForm.addEventListener("submit", handleProfileEditSubmit);
-addCardFormElement.addEventListener("submit", handleAddCardSubmit);
-
 //Add New Card Button
 
 addNewCardButton.addEventListener("click", () => {
@@ -151,6 +162,10 @@ addNewCardButton.addEventListener("click", () => {
 addCardModalCloseButton.addEventListener("click", () =>
   closeModal(modalAddCard)
 );
+
+//image modal button
+
+imageCloseButton.addEventListener("click", () => closeModal(imageModal));
 
 //Card Formating
 initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
