@@ -124,6 +124,11 @@ function getCardElement(cardData) {
 /*                               Event Handlers                               */
 /* -------------------------------------------------------------------------- */
 
+function clearInputValues() {
+  cardTitleInput.value = "";
+  cardUrlInput.value = "";
+}
+
 function handleProfileEditSubmit(e) {
   e.preventDefault();
   profileName.textContent = profileNameInput.value;
@@ -136,6 +141,7 @@ function handleAddCardSubmit(e) {
   const name = cardTitleInput.value;
   const link = cardUrlInput.value;
   renderCard({ name, link }, cardListEl);
+  clearInputValues();
   closeModal(modalAddCard);
 }
 
