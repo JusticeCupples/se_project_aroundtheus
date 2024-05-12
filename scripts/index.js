@@ -76,10 +76,14 @@ const cardUrlInput = addCardFormElement.querySelector("#profile-url-input");
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keydown", closeModalOnEscape);
+  
 }
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  document.addEventListener("keydown", closeModalOnEscape);
+
 }
 
 //render cards
@@ -149,13 +153,13 @@ function handleAddCardSubmit(e) {
 /* -------------------------------------------------------------------------- */
 
 //Modal key listeners
-document.addEventListener("keydown", (e) => {
+function closeModalOnEscape(e) {
   if (e.key === "Escape") {
     modals.forEach((modal) => {
       closeModal(modal);
     });
   }
-});
+}
 
 modals.forEach((modal) => {
   modal.addEventListener("click", (e) => {
