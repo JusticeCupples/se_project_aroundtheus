@@ -34,6 +34,8 @@ const initialCards = [
 /* -------------------------------------------------------------------------- */
 /*                                  Elements                                  */
 /* -------------------------------------------------------------------------- */
+//all modals
+const modals = document.querySelectorAll(".modal");
 
 //add card modal
 const addNewCardButton = document.querySelector(".profile__add-button");
@@ -54,8 +56,8 @@ const profileDescriptionInput = document.querySelector(
 // image modal
 const imageModal = document.querySelector("#modal-image-inspect");
 const imageCloseButton = document.querySelector("#modal-close-button");
-const modalImage = document.querySelector("#modal-card-image")
-const imageFooter = document.querySelector(".modal__image_footer")
+const modalImage = document.querySelector("#modal-card-image");
+const imageFooter = document.querySelector(".modal__image_footer");
 
 //template creator
 const addCardFormElement = modalAddCard.querySelector("#add-card-form");
@@ -80,7 +82,6 @@ function openModal(modal) {
   modal.classList.add("modal_opened");
 }
 
-
 //render cards
 
 function renderCard(cardData, wrapper) {
@@ -97,14 +98,12 @@ function getCardElement(cardData) {
   const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector("#card-delete-button");
 
-
   cardImageEl.addEventListener("click", () => {
     openModal(imageModal);
     imageFooter.textContent = cardData.name;
     modalImage.setAttribute("src", cardData.link);
     modalImage.setAttribute("alt", cardData.alt);
   });
-  
 
   deleteButton.addEventListener("click", () => {
     cardElement.remove();
@@ -148,6 +147,15 @@ function handleAddCardSubmit(e) {
 /* -------------------------------------------------------------------------- */
 /*                               Event Listeners                              */
 /* -------------------------------------------------------------------------- */
+
+//Modal key listeners
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    modals.forEach((modal) => {
+      closeModal(modal);
+    });
+  }
+});
 
 //Form Listeners
 
