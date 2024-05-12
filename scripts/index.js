@@ -160,9 +160,11 @@ document.addEventListener("keydown", (e) => {
 modals.forEach((modal) => {
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
-      const exemptedElements = ['modal__image_container', 'card__image_modal'];
+      const exemptedElements = ["modal__image_container", "card__image_modal"];
       const clickedElementClassList = e.target.classList;
-      const isExempted = exemptedElements.some(className => clickedElementClassList.contains(className));
+      const isExempted = exemptedElements.some((className) =>
+        clickedElementClassList.contains(className)
+      );
       if (!isExempted) {
         closeModal(modal);
       }

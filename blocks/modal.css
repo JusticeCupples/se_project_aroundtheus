@@ -160,8 +160,8 @@
   opacity: 80%;
 }
 
-.modal__input_type_error{
- border-color:#ff0000;
+.modal__input_type_error {
+  border-color: #ff0000;
 }
 
 @media screen and (max-width: 650px) {
