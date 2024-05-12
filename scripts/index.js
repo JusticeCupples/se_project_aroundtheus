@@ -76,12 +76,24 @@ const cardUrlInput = addCardFormElement.querySelector("#profile-url-input");
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  document.body.removeEventListener("click", closeModalOnClickOutside);
 }
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  document.body.addEventListener("click", closeModalOnClickOutside);
 }
 
+// trigger card close on click outside
+function closeModalOnClickOutside(event) {
+  const modals = document.querySelectorAll(".modal");
+  modals.forEach((modal) => {
+    const modalContainer = modal.querySelector(".modal__container");
+    if (modalContainer && !modalContainer.contains(event.target)) {
+      closeModal(modal);
+    }
+  });
+}
 //render cards
 
 function renderCard(cardData, wrapper) {
@@ -156,6 +168,16 @@ document.addEventListener("keydown", (e) => {
     });
   }
 });
+
+// modal close outside of container
+function closeModalOnClickOutside(modal, modalContainer) {
+  document.body.addEventListener("click", (event) => {
+    const isClickInsideModal = modalContainer.contains(event.target);
+    if (!isClickInsideModal) {
+      closeModal(modal);
+    }
+  });
+}
 
 //Form Listeners
 

@@ -89,6 +89,7 @@
 .modal__input {
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-color: black;
   border-top: 0;
   border-right: 0;
   border-left: 0;
@@ -110,7 +111,6 @@
   color: #ff0000;
   margin-bottom: 13px;
 }
-
 
 #modal-card-image {
   max-width: 75vw;
@@ -149,9 +149,19 @@
   line-height: 1.21;
 }
 
+.modal__button_disabled {
+  background-color: transparent;
+  color: black;
+  opacity: 20%;
+}
+
 .modal__button:hover {
   transition: 0.5s ease-in;
   opacity: 80%;
+}
+
+.modal__input_type_error{
+ border-color:#ff0000;
 }
 
 @media screen and (max-width: 650px) {
@@ -165,7 +175,6 @@
   .modal__container {
     padding: 25px 22px;
   }
-
 
   #modal-close-button {
     bottom: 83%;
