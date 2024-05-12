@@ -1,13 +1,14 @@
 function showInputError(formEl, inputEl, options) {
-    
+  const errorMessageEl = formEl.querySelector(`#${inputEl.id}-error`);
+  console.log(errorMessageEl);
 }
 
 function checkInputValidity(formEl, inputEl, options) {
-    if(!inputEl.validity.valid) {
-        showInputError(formEl, inputEl, options);
-    } else {
-        hideInputError(formEl, inputEl, options);
-    }
+  if (!inputEl.validity.valid) {
+    showInputError(formEl, inputEl, options);
+  } else {
+    hideInputError(formEl, inputEl, options);
+  }
 }
 
 function setEventListiners(formEl, options) {
@@ -15,7 +16,7 @@ function setEventListiners(formEl, options) {
   const inputElm = [...formEl.querySelectorAll(inputSelector)];
   inputElm.forEach((inputEl) => {
     inputEl.addEventListener("input", (e) => {
-      checkInputValidity(formEl, inputEl, options)
+      checkInputValidity(formEl, inputEl, options);
     });
   });
 }
