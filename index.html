@@ -52,7 +52,12 @@
     <!-- Edit Modal -->
     <div class="modal" id="modal-edit-profile">
       <div class="modal__container">
-        <button class="modal__close" type="button" title="close" id="modal-standard-button"></button>
+        <button
+          class="modal__close"
+          type="button"
+          title="close"
+          id="modal-standard-button"
+        ></button>
         <p class="modal__heading">Edit profile</p>
         <form class="modal__form" id="add-profile-form">
           <input
@@ -60,15 +65,23 @@
             id="profile-name-input"
             type="text"
             name="name"
+            minlength="2"
+            maxlength="40"
+            required
             placeholder="name"
           />
+          <span class="modal__error">please fill out this field.</span>
           <input
             class="modal__input"
             id="profile-description-input"
             type="text"
             name="description"
+            minlength="2"
+            maxlength="200"
+            required
             placeholder="description"
           />
+          <span class="modal__error">please fill out this field.</span>
           <button class="modal__button" type="submit" title="close">
             Save
           </button>
@@ -78,7 +91,12 @@
     <!-- Add Card Modal -->
     <div class="modal" id="modal-add-card">
       <div class="modal__container">
-        <button class="modal__close" type="button" title="close" id="modal-standard-button"></button>
+        <button
+          class="modal__close"
+          type="button"
+          title="close"
+          id="modal-standard-button"
+        ></button>
         <p class="modal__heading">New Place</p>
         <form class="modal__form" id="add-card-form">
           <input
@@ -87,14 +105,19 @@
             type="text"
             name="title"
             placeholder="Title"
+            required
           />
+          <span class="modal__error">please fill out this field.</span>
           <input
             class="modal__input"
             id="profile-url-input"
             type="text"
             name="url"
             placeholder="Image link"
+            required
+            type="url"
           />
+          <span class="modal__error">please enter a web address.</span>
           <button class="modal__button" type="submit" title="close">
             Create
           </button>
@@ -104,28 +127,38 @@
     <!-- Add Image Inspect Modal -->
     <div class="modal" id="modal-image-inspect">
       <div class="modal__image_container" id="modal">
-        <img class="card__image_modal" src="images/heart.svg" alt="" id="modal-card-image"/>
-        <button class="modal__close" type="button" title="close" id="modal-close-button"></button>
+        <img
+          class="card__image_modal"
+          src="images/heart.svg"
+          alt=""
+          id="modal-card-image"
+        />
+        <button
+          class="modal__close"
+          type="button"
+          title="close"
+          id="modal-close-button"
+        ></button>
         <p class="modal__image_footer"></p>
       </div>
     </div>
     <!-- template -->
     <template id="card-template">
       <li class="card">
-        <img class="card__image" src="" alt="" id="card-image"/>
+        <img class="card__image" src="" alt="" id="card-image" />
         <button
-        class="card__delete-button"
-        id="card-delete-button"
-        aria-label="delete"
-        type="button"
-      ></button>
+          class="card__delete-button"
+          id="card-delete-button"
+          aria-label="delete"
+          type="button"
+        ></button>
         <div class="card__description">
           <h2 class="card__text"></h2>
           <button
             class="card__like-button"
             aria-label="like"
             type="button"
-          ></button> 
+          ></button>
         </div>
       </li>
     </template>

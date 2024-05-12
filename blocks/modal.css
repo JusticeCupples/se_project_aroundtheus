@@ -83,7 +83,7 @@
   font-weight: 900;
   line-height: 1.21;
   color: black;
-  margin: 0 0 54px;
+  margin: 0 0 41px;
 }
 
 .modal__input {
@@ -92,13 +92,26 @@
   border-top: 0;
   border-right: 0;
   border-left: 0;
-  margin-bottom: 29.74px;
+  margin-bottom: 5px;
+  margin-top: 13px;
   padding: 0 0 13.26px 0;
   font-family: "Inter", Arial, sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 1.21;
 }
+
+.modal__error {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.21;
+  text-align: left;
+  color: #ff0000;
+  opacity: 0;
+  margin-bottom: 13px;
+}
+
 
 #modal-card-image {
   max-width: 75vw;
@@ -127,7 +140,7 @@
   color: white;
   width: 100%;
   height: 50.15px;
-  margin: 0;
+  margin: 31.34px 0 0;
   transition-timing-function: ease-out;
   transition: 2s;
   border-radius: 2px;
@@ -153,6 +166,7 @@
   .modal__container {
     padding: 25px 22px;
   }
+
 
   #modal-close-button {
     bottom: 83%;

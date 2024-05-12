@@ -1,9 +1,21 @@
+function showInputError(formEl, inputEl, options) {
+    
+}
+
+function checkInputValidity(formEl, inputEl, options) {
+    if(!inputEl.validity.valid) {
+        showInputError(formEl, inputEl, options);
+    } else {
+        hideInputError(formEl, inputEl, options);
+    }
+}
+
 function setEventListiners(formEl, options) {
   const { inputSelector } = options;
   const inputElm = [...formEl.querySelectorAll(inputSelector)];
   inputElm.forEach((inputEl) => {
     inputEl.addEventListener("input", (e) => {
-        console.dir(inputEl);
+      checkInputValidity(formEl, inputEl, options)
     });
   });
 }
