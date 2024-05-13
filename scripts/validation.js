@@ -19,9 +19,9 @@ function checkInputValidity(formEl, inputEl, options) {
   hideInputError(formEl, inputEl, options);
 }
 
-function toggleButtonState(inputElm, submitButton, { inactiveButtonClass }) {
+function toggleButtonState(inputElms, submitButton, { inactiveButtonClass }) {
   let foundInvalid = false;
-  inputElm.forEach((inputEl) => {
+  inputElms.forEach((inputEl) => {
     if (!inputEl.validity.valid) {
       foundInvalid = true;
     }
@@ -37,19 +37,19 @@ function toggleButtonState(inputElm, submitButton, { inactiveButtonClass }) {
 
 function setEventListiners(formEl, options) {
   const { inputSelector, submitButtonSelector } = options;
-  const inputElm = [...formEl.querySelectorAll(inputSelector)];
+  const inputElms = [...formEl.querySelectorAll(inputSelector)];
   const submitButton = formEl.querySelector(submitButtonSelector);
-  inputElm.forEach((inputEl) => {
+  inputElms.forEach((inputEl) => {
     inputEl.addEventListener("input", (e) => {
       checkInputValidity(formEl, inputEl, options);
-      toggleButtonState(inputElm, submitButton, options);
+      toggleButtonState(inputElms, submitButton, options);
     });
   });
 }
 
 function enableValidation(options) {
-  const formElm = [...document.querySelectorAll(options.formSelector)];
-  formElm.forEach((formEl) => {
+  const formElms = [...document.querySelectorAll(options.formSelector)];
+  formElms.forEach((formEl) => {
     formEl.addEventListener("submit", (e) => {
       e.preventDefault();
     });
