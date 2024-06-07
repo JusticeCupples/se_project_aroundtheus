@@ -1,3 +1,5 @@
+import Card from "../components/Card.js";
+
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -30,6 +32,15 @@ const initialCards = [
     alt: "A picture of Lago di Braies",
   },
 ];
+
+const cardData = {
+  name: "Yosemite Valley",
+  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
+  alt: "A picture of Yosemite Valley",
+};
+
+const card = new Card(cardData, "#card-template");
+card.getView();
 
 /* -------------------------------------------------------------------------- */
 /*                                  Elements                                  */
@@ -77,13 +88,11 @@ const cardUrlInput = addCardFormElement.querySelector("#profile-url-input");
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
   document.removeEventListener("keydown", closeModalOnEscape);
-  
 }
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
   document.addEventListener("keydown", closeModalOnEscape);
-
 }
 
 //render cards
