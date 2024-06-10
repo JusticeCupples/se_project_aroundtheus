@@ -6,7 +6,6 @@ class FormValidator {
     this.submitButton = formEl.querySelector(settings.submitButtonSelector);
   }
 
-  // Private method to show input error
   _showInputError(inputEl) {
     const errorMessageEl = this.formEl.querySelector(`#${inputEl.id}-error`);
     inputEl.classList.add(this.settings.inputErrorClass);
@@ -14,7 +13,6 @@ class FormValidator {
     errorMessageEl.classList.add(this.settings.errorClass);
   }
 
-  // Private method to hide input error
   _hideInputError(inputEl) {
     const errorMessageEl = this.formEl.querySelector(`#${inputEl.id}-error`);
     inputEl.classList.remove(this.settings.inputErrorClass);
@@ -22,7 +20,6 @@ class FormValidator {
     errorMessageEl.classList.remove(this.settings.errorClass);
   }
 
-  // Private method to check input validity
   _checkInputValidity(inputEl) {
     if (!inputEl.validity.valid) {
       this._showInputError(inputEl);
@@ -31,9 +28,10 @@ class FormValidator {
     }
   }
 
-  // Private method to toggle the state of the submit button
   _toggleButtonState() {
-    const foundInvalid = this.inputElms.some(inputEl => !inputEl.validity.valid);
+    const foundInvalid = this.inputElms.some(
+      (inputEl) => !inputEl.validity.valid
+    );
 
     if (foundInvalid) {
       this.submitButton.classList.add(this.settings.inactiveButtonClass);
@@ -44,9 +42,8 @@ class FormValidator {
     }
   }
 
-  // Private method to set event listeners
   _setEventListeners() {
-    this.inputElms.forEach(inputEl => {
+    this.inputElms.forEach((inputEl) => {
       inputEl.addEventListener("input", () => {
         this._checkInputValidity(inputEl);
         this._toggleButtonState();
@@ -54,23 +51,20 @@ class FormValidator {
     });
   }
 
-  // Public method to enable form validation
   enableValidation() {
-    this.formEl.addEventListener("submit", e => e.preventDefault());
+    this.formEl.addEventListener("submit", (e) => e.preventDefault());
     this._setEventListeners();
-    this._toggleButtonState(); // Initial check to set the button state
+    this._toggleButtonState();
   }
 
-  // Public method to reset form validation
   resetValidation() {
-    this.inputElms.forEach(inputEl => {
+    this.inputElms.forEach((inputEl) => {
       this._hideInputError(inputEl);
     });
     this._toggleButtonState();
   }
 }
 
-// Create instances of the FormValidator class for each form
 const config = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
@@ -80,7 +74,7 @@ const config = {
   errorClass: "modal__error_visible",
 };
 
-document.querySelectorAll(config.formSelector).forEach(formEl => {
+document.querySelectorAll(config.formSelector).forEach((formEl) => {
   const formValidator = new FormValidator(config, formEl);
   formValidator.enableValidation();
 });
