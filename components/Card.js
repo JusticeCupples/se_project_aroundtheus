@@ -4,7 +4,7 @@ export default class Card {
     this._link = link;
     this._alt = alt;
     this._cardSelector = cardSelector;
-    this._handeImageClick = handleImageClick;
+    this._handleImageClick = handleImageClick;
   }
 
   _setEventListeners() {
@@ -14,16 +14,16 @@ export default class Card {
         this._handleLikeIcon();
       });
 
-    this._modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        closeModal(this);
-      }
-    });
-
     this._cardElement
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
         this._handleDeleteCard();
+      });
+
+    this._cardElement
+      .querySelector(".card__image")
+      .addEventListener("click", () => {
+        this._handleImageClick(this._link, this._alt);
       });
   }
 
@@ -44,6 +44,15 @@ export default class Card {
       .content.querySelector(".card")
       .cloneNode(true);
 
+    const cardImageEl = this._cardElement.querySelector(".card__image");
+    const cardTextEl = this._cardElement.querySelector(".card__text");
+
+    cardImageEl.setAttribute("src", this._link);
+    cardImageEl.setAttribute("alt", this._alt);
+    cardTextEl.textContent = this._name;
+
     this._setEventListeners();
+
+    return this._cardElement;
   }
 }
