@@ -187,6 +187,36 @@ profileEditForm.addEventListener("submit", (e) => {
   handleProfileEditSubmit(e);
 });
 
+// Edit profile modal button
+profileEditButton.addEventListener("click", () => {
+  profileNameInput.value = profileName.textContent;
+  profileDescriptionInput.value = profileDescription.textContent;
+  openModal(profileEditModal);
+  enableFormValidation(profileEditForm);
+});
+
+// Close edit profile modal button
+profileModalCloseButton.addEventListener("click", () => {
+  closeModal(profileEditModal);
+});
+
+// Close add card modal button
+addCardModalCloseButton.addEventListener("click", () => {
+  closeModal(modalAddCard);
+});
+
+// Add New Card Button
+addNewCardButton.addEventListener("click", () => {
+  openModal(modalAddCard);
+  enableFormValidation(addCardFormElement); // Apply validation to the add card form
+  clearCardInputValues();
+});
+
+// Close add card modal button
+addCardModalCloseButton.addEventListener("click", () => {
+  closeModal(modalAddCard);
+});
+
 // Apply validation to all forms
 document
   .querySelectorAll(validationConfig.formSelector)
