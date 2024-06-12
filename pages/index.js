@@ -165,13 +165,10 @@ function handleAddCardSubmit(e) {
   const link = cardUrlInput.value;
   const formValidator = addCardFormElement.formValidator;
 
-  if (!formValidator || !formValidator._checkFormValidity()) {
-    return;
-  }
-
   renderCard({ name, link }, cardListEl);
   clearCardInputValues();
   closeModal(modalAddCard);
+  formValidator.resetValidation();
 }
 
 profileEditForm.addEventListener("submit", (e) => {

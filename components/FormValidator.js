@@ -25,8 +25,10 @@ export default class FormValidator {
   _checkInputValidity(inputEl) {
     if (!inputEl.validity.valid) {
       this._showInputError(inputEl);
+      return false; 
     } else {
       this._hideInputError(inputEl);
+      return true; 
     }
   }
 
@@ -43,7 +45,7 @@ export default class FormValidator {
   }
 
   _checkFormValidity() {
-    return this.inputElms.some((inputEl) => !this._checkInputValidity(inputEl));
+    return this.inputElms.every((inputEl) => this._checkInputValidity(inputEl));
   }
 
   _setEventListeners() {
