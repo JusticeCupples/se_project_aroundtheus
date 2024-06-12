@@ -187,49 +187,14 @@ profileEditForm.addEventListener("submit", (e) => {
   handleProfileEditSubmit(e);
 });
 
-//edit profile button
-
-profileEditButton.addEventListener("click", () => {
-  profileNameInput.value = profileName.textContent;
-  profileDescriptionInput.value = profileDescription.textContent;
-  openModal(profileEditModal);
-});
-
-//Form Listeners
-
-profileEditForm.addEventListener("submit", handleProfileEditSubmit);
-addCardFormElement.addEventListener("submit", handleAddCardSubmit);
-
-modals.forEach((modal) => {
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      closeModal(modal);
-    }
-  });
-});
-
-document.addEventListener("keydown", closeModalOnEscape);
-
 // Apply validation to all forms
 document
   .querySelectorAll(validationConfig.formSelector)
   .forEach(enableFormValidation);
 
-//Add New Card Button
-
-addNewCardButton.addEventListener("click", () => {
-  openModal(modalAddCard);
-  clearCardInputValues();
-  addCardFormElement.formValidator.resetValidation();
-});
-
-addCardModalCloseButton.addEventListener("click", () =>
-  closeModal(modalAddCard)
-);
-
-profileModalCloseButton.addEventListener("click", () =>
-  closeModal(profileEditModal)
-);
+document
+  .querySelectorAll(validationConfig.formSelector)
+  .forEach(enableFormValidation);
 
 //Image close button
 
