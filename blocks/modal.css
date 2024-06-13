@@ -159,6 +159,7 @@
   background-color: transparent;
   color: black;
   opacity: 20%;
+  cursor: default;
 }
 
 .modal__button:hover {
