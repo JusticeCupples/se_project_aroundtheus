@@ -29,7 +29,7 @@
   position: relative;
 }
 
-#modal-close-button {
+.modal__close-button {
   background-image: url("../images/close.svg");
   border: none;
   background-color: transparent;
@@ -56,7 +56,7 @@
   width: 430px;
 }
 
-#modal-standard-button {
+.modal__standard-button {
   background-image: url("../images/close.svg");
   border: none;
   background-color: transparent;
@@ -113,14 +113,18 @@
   position: absolute;
 }
 
-#modal-card-image {
+.modal__card_image {
   max-width: 75vw;
   max-height: 75vh;
   border-radius: 0;
   padding-top: 90px;
 }
 
-#modal-image-inspect {
+.modal__image_card {
+  cursor: pointer;
+}
+
+.modal__image_inspect {
   margin: auto;
 }
 
@@ -148,6 +152,7 @@
   font-size: 18px;
   font-weight: 400;
   line-height: 1.21;
+  cursor: pointer;
 }
 
 .modal__button_disabled {
@@ -159,6 +164,10 @@
 .modal__button:hover {
   transition: 0.5s ease-in;
   opacity: 80%;
+}
+
+.modal__button_disabled:hover {
+  opacity: 0.2;
 }
 
 .modal__input_type_error {
@@ -177,7 +186,7 @@
     padding: 25px 22px;
   }
 
-  #modal-close-button {
+  .modal__close-button {
     bottom: 83%;
     left: 100%;
   }

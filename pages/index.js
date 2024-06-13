@@ -176,6 +176,7 @@ profileEditForm.addEventListener("submit", (e) => {
   const formValidator = profileEditForm.formValidator;
 
   // Form Validation
+
   if (formValidator) {
     formValidator.inputElms.forEach((inputEl) => {
       formValidator._checkInputValidity(inputEl);
@@ -188,11 +189,15 @@ profileEditForm.addEventListener("submit", (e) => {
 });
 
 // Edit profile modal button
+
 profileEditButton.addEventListener("click", () => {
   profileNameInput.value = profileName.textContent;
   profileDescriptionInput.value = profileDescription.textContent;
   openModal(profileEditModal);
-  enableFormValidation(profileEditForm);
+  const formValidator = profileEditForm.formValidator;
+  if (formValidator) {
+    formValidator.resetValidation();
+  }
 });
 
 // Close edit profile modal button
@@ -207,9 +212,12 @@ addCardModalCloseButton.addEventListener("click", () => {
 
 // Add New Card Button
 addNewCardButton.addEventListener("click", () => {
-  openModal(modalAddCard);
-  enableFormValidation(addCardFormElement); // Apply validation to the add card form
   clearCardInputValues();
+  openModal(modalAddCard);
+  const formValidator = addCardFormElement.formValidator;
+  if (formValidator) {
+    formValidator.resetValidation();
+  }
 });
 
 // Close add card modal button
@@ -218,14 +226,11 @@ addCardModalCloseButton.addEventListener("click", () => {
 });
 
 // Apply validation to all forms
-document
-  .querySelectorAll(validationConfig.formSelector)
-  .forEach(enableFormValidation);
-
-document
-  .querySelectorAll(validationConfig.formSelector)
-  .forEach(enableFormValidation);
-
+document.querySelectorAll(validationConfig.formSelector).forEach((formEl) => {
+  const formValidator = new FormValidator(validationConfig, formEl);
+  formValidator.enableValidation();
+  formEl.formValidator = formValidator;
+});
 //Image close button
 
 imageCloseButton.addEventListener("click", () => {

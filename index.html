@@ -53,7 +53,7 @@
     <div class="modal" id="modal-edit-profile">
       <div class="modal__container">
         <button
-          class="modal__close"
+          class="modal__close modal__standard-button"
           type="button"
           title="close"
           id="modal-standard-button"
@@ -100,7 +100,7 @@
     <div class="modal" id="modal-add-card">
       <div class="modal__container">
         <button
-          class="modal__close"
+          class="modal__close modal__standard-button"
           type="button"
           title="close"
           id="modal-standard-button"
@@ -139,16 +139,16 @@
       </div>
     </div>
     <!-- Add Image Inspect Modal -->
-    <div class="modal" id="modal-image-inspect">
+    <div class="modal modal__image_inspect" id="modal-image-inspect">
       <div class="modal__image_container" id="modal">
         <img
-          class="card__image_modal"
+          class="card__image_modal modal__card_image"
           src="images/heart.svg"
           alt=""
           id="modal-card-image"
         />
         <button
-          class="modal__close"
+          class="modal__close modal__close-button"
           type="button"
           title="close"
           id="modal-close-button"
@@ -159,7 +159,7 @@
     <!-- template -->
     <template id="card-template">
       <li class="card">
-        <img class="card__image" src="" alt="" id="card-image" />
+        <img class="card__image modal__image_card" src="" alt="" id="card-image" />
         <button
           class="card__delete-button"
           id="card-delete-button"
