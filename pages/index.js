@@ -1,5 +1,8 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import Popup from "../components/Popup.js";
+
 
 const initialCards = [
   {
@@ -44,10 +47,7 @@ const modals = document.querySelectorAll(".modal");
 const addNewCardButton = document.querySelector(".profile__add-button");
 const modalAddCard = document.querySelector("#modal-add-card");
 const addCardModalCloseButton = modalAddCard.querySelector(".modal__close");
-const createCard = (cardData) => {
-  const card = new Card(cardData, "#card-template", openImageModal);
-  return card.getView();
-};
+
 
 // edit modal
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -88,6 +88,23 @@ const validationConfig = {
 /* -------------------------------------------------------------------------- */
 /*                                  Functions                                 */
 /* -------------------------------------------------------------------------- */
+const createCard = (cardData) => { 
+  const card = new Card(cardData, "#card-template", openImageModal);
+  return card.getView();
+};
+
+const cardSection = new Section(
+  {
+    items: initialCards,
+    renderer: (cardData) => {
+      const cardElement = createCard(cardData);
+      cardSection.addItem(cardElement);
+    },
+  },
+  ".cards__list"
+);
+
+cardSection.renderItems();
 
 //open/close function
 
@@ -107,19 +124,6 @@ function openImageModal(link, alt, name) {
   imageFooter.textContent = name;
   openModal(imageModal);
 }
-
-//render cards
-
-function renderCard(cardData, wrapper) {
-  const cardElement = createCard(cardData);
-  wrapper.prepend(cardElement);
-}
-// card elements function
-
-initialCards.forEach((cardData) => {
-  const cardElement = createCard(cardData);
-  renderCardElement(cardElement, cardListEl);
-});
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
@@ -165,7 +169,8 @@ function handleAddCardSubmit(e) {
   const link = cardUrlInput.value;
   const formValidator = addCardFormElement.formValidator;
 
-  renderCard({ name, link }, cardListEl);
+  const newCard = createCard({ name, link });
+  cardSection.addItem(newCard);
   clearCardInputValues();
   closeModal(modalAddCard);
   formValidator.resetValidation();
