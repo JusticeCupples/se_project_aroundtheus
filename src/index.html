@@ -8,13 +8,12 @@
     <meta name="author" content="Justice Cupples" />
     <meta name="keywords" content="Intro, Figma, Images" />
     <title>Around the U.S</title>
-    <link href="./pages/index.css" rel="stylesheet" />
   </head>
   <body class="page">
     <div class="page__content">
       <header class="header page__section">
         <img
-          src="./images/logo.svg"
+          src="<%=require('./images/logo.svg')%>"
           alt="around the U.S logo"
           class="header__image"
         />
@@ -22,7 +21,7 @@
       <main class="content">
         <section class="profile page__section">
           <img
-            src="./images/jacques-cousteau.svg"
+            src="<%=require('./images/jacques-cousteau.svg')%>"
             alt="profile image for jacques-cousteau"
             class="profile__image"
           />
@@ -181,6 +180,5 @@
         </div>
       </li>
     </template>
-    <script src="./pages/index.js" type="module"></script>
   </body>
 </html>

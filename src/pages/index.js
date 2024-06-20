@@ -1,9 +1,10 @@
-import Section from "./components/Section.js";
-import PopupWithImage from "./components/PopupWithImage.js";
-import PopupWithForm from "./components/PopupWithForm.js";
-import UserInfo from "./components/UserInfo.js";
-import { initialCards, validationConfig } from "./utils/constants.js";
-import FormValidator from "./components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
+import { initialCards, validationConfig } from "../utils/constants.js";
+import FormValidator from "../components/FormValidator.js";
+import "./index.css"
 
 // Selectors
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -18,7 +19,7 @@ const userInfo = new UserInfo({
 });
 
 const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {
-  // Handle form submission for adding a new card
+  
 });
 
 const editProfilePopup = new PopupWithForm(
