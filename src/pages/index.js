@@ -4,7 +4,8 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import { initialCards, validationConfig } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
-import "./index.css"
+import "./index.css";
+
 
 // Selectors
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -18,9 +19,10 @@ const userInfo = new UserInfo({
   jobSelector: ".profile__description",
 });
 
-const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {
-  
-});
+initialCards 
+
+const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {});
+addCardPopup.setEventListeners();
 
 const editProfilePopup = new PopupWithForm(
   "#modal-edit-profile",
@@ -29,8 +31,13 @@ const editProfilePopup = new PopupWithForm(
     editProfilePopup.close();
   }
 );
+editProfilePopup.setEventListeners();
 
 const imagePopup = new PopupWithImage("#modal-image-inspect");
+
+const profileNameInput = document.querySelector("#profile-name-input")
+const profileDescriptionInput = document.querySelector("#profile-description-input")
+
 
 // Event Listeners
 profileEditButton.addEventListener("click", () => {
