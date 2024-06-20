@@ -19,7 +19,6 @@ const userInfo = new UserInfo({
   jobSelector: ".profile__description",
 });
 
-initialCards 
 
 const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {});
 addCardPopup.setEventListeners();
