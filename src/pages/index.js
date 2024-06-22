@@ -24,7 +24,7 @@ const userInfo = new UserInfo({
   jobSelector: ".profile__description",
 });
 
-const renderer = (item) => {
+const renderCard = (item) => {
   const card = new Card(item, "#card-template", handleImageClick);
   const cardElement = card.getView();
   cardList.addItem(cardElement);
@@ -33,7 +33,7 @@ const renderer = (item) => {
 const cardList = new Section(
   {
     items: initialCards.reverse(),
-    renderer: renderer,
+    renderer: renderCard,
   },
   ".cards__list"
 );
@@ -41,13 +41,7 @@ const cardList = new Section(
 cardList.renderItems();
 
 const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {
-  const card = new Card(
-    { name: formData.title, link: formData.url, alt: formData.title },
-    "#card-template",
-    handleImageClick
-  );
-  const cardElement = card.getView();
-  cardList.addItem(cardElement);
+  renderCard({ name: formData.title, link: formData.url, alt: formData.title });
   addCardPopup.close();
 });
 
@@ -78,7 +72,11 @@ profileEditButton.addEventListener("click", () => {
   editProfilePopup.open();
 });
 
+const addCardFormValidator = new FormValidator(validationConfig, document.querySelector("#modal-add-card .modal__form"));
+addCardFormValidator.enableValidation();
+
 addNewCardButton.addEventListener("click", () => {
+  addCardFormValidator.toggleButtonState();
   addCardPopup.open();
 });
 

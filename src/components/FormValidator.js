@@ -32,7 +32,7 @@ export default class FormValidator {
     }
   }
 
-  _toggleButtonState() {
+  toggleButtonState() {
     const isValid = this._checkFormValidity();
 
     if (isValid) {
@@ -52,7 +52,7 @@ export default class FormValidator {
     this.inputElms.forEach((inputEl) => {
       inputEl.addEventListener("input", () => {
         this._checkInputValidity(inputEl);
-        this._toggleButtonState();
+        this.toggleButtonState();
       });
     });
   }
@@ -60,14 +60,14 @@ export default class FormValidator {
   enableValidation() {
     this._formEl.addEventListener("submit", (e) => e.preventDefault());
     this._setEventListeners();
-    this._toggleButtonState();
+    this.toggleButtonState();
   }
 
   resetValidation() {
     this.inputElms.forEach((inputEl) => {
       this._hideInputError(inputEl);
     });
-    this._toggleButtonState();
+    this.toggleButtonState();
   }
 }
 
