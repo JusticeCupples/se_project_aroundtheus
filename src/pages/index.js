@@ -14,24 +14,45 @@ const profileDescription = document.querySelector(".profile__description");
 const addNewCardButton = document.querySelector(".profile__add-button");
 
 // Instances
+
+const handleImageClick = (link, alt, name) => {
+  imagePopup.open({ link, alt, name });
+};
+
 const userInfo = new UserInfo({
   nameSelector: ".profile__name",
   jobSelector: ".profile__description",
 });
 
-initialCards.forEach(function (item) {
-  const handleImageClick = null;
+const renderer = (item) => {
+  const card = new Card(item, "#card-template", handleImageClick);
+  const cardElement = card.getView();
+  cardList.addItem(cardElement);
+};
 
-  const card = new Card(item, ".card", handleImageClick);
+const cardList = new Section(
+  {
+    items: initialCards.reverse(),
+    renderer: renderer,
+  },
+  ".cards__list"
+);
 
-  console.log(card);
+cardList.renderItems();
+
+
+
+const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {
+  const card = new Card(
+    { name: formData.title, link: formData.url, alt: formData.title },
+    "#card-template",
+    handleImageClick
+  );
+  const cardElement = card.getView();
+  cardList.addItem(cardElement);
+  addCardPopup.close();
 });
-//
 
-//  cards   function(card)  .cards__list
-//
-
-const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {});
 addCardPopup.setEventListeners();
 
 const editProfilePopup = new PopupWithForm(
@@ -44,6 +65,7 @@ const editProfilePopup = new PopupWithForm(
 editProfilePopup.setEventListeners();
 
 const imagePopup = new PopupWithImage("#modal-image-inspect");
+imagePopup.setEventListeners();
 
 const profileNameInput = document.querySelector("#profile-name-input");
 const profileDescriptionInput = document.querySelector(
