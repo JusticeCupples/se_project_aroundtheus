@@ -1,7 +1,7 @@
 export const initialCards = [
   {
     name: "Yosemite Valley",
-    link: "https://example.com/yosemite.jpg",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
     alt: "A picture of Yosemite Valley",
   },
   {
