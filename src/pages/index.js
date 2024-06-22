@@ -40,8 +40,6 @@ const cardList = new Section(
 
 cardList.renderItems();
 
-
-
 const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {
   const card = new Card(
     { name: formData.title, link: formData.url, alt: formData.title },
