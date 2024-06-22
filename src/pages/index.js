@@ -72,7 +72,10 @@ profileEditButton.addEventListener("click", () => {
   editProfilePopup.open();
 });
 
-const addCardFormValidator = new FormValidator(validationConfig, document.querySelector("#modal-add-card .modal__form"));
+const addCardFormValidator = new FormValidator(
+  validationConfig,
+  document.querySelector("#modal-add-card .modal__form")
+);
 addCardFormValidator.enableValidation();
 
 addNewCardButton.addEventListener("click", () => {
