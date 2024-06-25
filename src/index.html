@@ -25,6 +25,11 @@
             alt="profile image for jacques-cousteau"
             class="profile__image"
           />
+          <button
+            class="edit_pfp-button"
+            aria-label="edit"
+            type="button"
+          ></button>
           <div class="profile__info">
             <h1 class="profile__name">Jacques Cousteaut</h1>
             <button
@@ -47,6 +52,58 @@
       <footer class="footer page__section">
         <p class="footer__author">© 2022 Around The U.S.</p>
       </footer>
+    </div>
+    <!-- Edit PFP Modal -->
+    <div class="modal" id="modal-edit-pfp">
+      <div class="modal__container">
+        <button
+          class="modal__close modal__close-button modal__standard-button"
+          type="button"
+          title="close"
+          id="modal-standard-button"
+        ></button>
+        <p class="modal__heading">Change profile picture</p>
+        <form class="modal__form" id="add-profile-form">
+          <input
+            class="modal__input"
+            id="pfp-url-input"
+            type="url"
+            name="url"
+            placeholder="Image link"
+            required
+          />
+          <span class="modal__error" id="profile-url-input-error"></span>
+          <button
+            class="modal__button modal__button_disabled"
+            type="submit"
+            title="close"
+            disabled
+          >
+            Save
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Are You Sure Modal -->
+    <div class="modal" id="modal-edit-pfp">
+      <div class="modal__container">
+        <button
+          class="modal__close modal__close-button modal__standard-button"
+          type="button"
+          title="close"
+          id="modal-standard-button"
+        ></button>
+        <p class="modal__heading">Are You Sure?</p>
+          <button
+            class="modal__button modal__button_disabled"
+            type="submit"
+            title="close"
+            disabled
+          >
+            Yes
+          </button>
+        </form>
+      </div>
     </div>
     <!-- Edit Modal -->
     <div class="modal" id="modal-edit-profile">
@@ -182,4 +239,3 @@
     </template>
   </body>
 </html>
-<!--branch creation test-->
