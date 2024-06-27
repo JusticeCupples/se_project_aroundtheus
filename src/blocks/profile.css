@@ -11,6 +11,22 @@
   height: 120px;
 }
 
+.pfp__edit-button {
+  border: hidden;
+  width: 24px;
+  height: 24px;
+  background: transparent url(../images/Edit.svg) center no-repeat;
+  background-size: 24px 24px;
+  grid-area: button;
+  margin: auto 0 auto;
+  position: absolute;
+  left: 50px;
+  transition-timing-function: ease-out;
+  transition: 2s;
+  cursor: pointer;
+  display: none;
+}
+
 .profile__info {
   display: grid;
   grid-template-areas:

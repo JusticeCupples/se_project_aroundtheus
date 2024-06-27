@@ -45,6 +45,19 @@ const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {
   addCardPopup.close();
 });
 
+const pfpEditButton = document.querySelector(".pfp__edit-button");
+
+const editPfpPopup = new PopupWithForm("#modal-edit-pfp", (formData) => {
+  document.querySelector(".profile__image").src = formData.url;
+  editPfpPopup.close();
+});
+
+editPfpPopup.setEventListeners();
+
+pfpEditButton.addEventListener("click", () => {
+  editPfpPopup.open();
+});
+
 addCardPopup.setEventListeners();
 
 const editProfilePopup = new PopupWithForm(

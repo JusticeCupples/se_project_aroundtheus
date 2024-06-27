@@ -28,8 +28,14 @@ export default class Card {
   }
 
   _handleDeleteCard() {
-    this._cardElement.remove();
-    this._cardElement = null;
+    const confirmDeleteButton = document.querySelector("#confirm-delete-button");
+  
+    confirmDeleteButton.onclick = () => {
+      this._cardElement.remove();
+      this._cardElement = null;
+      document.querySelector("#modal-confirm-delete").classList.remove("modal_open");
+    };
+    document.querySelector("#modal-confirm-delete").classList.add("modal_open");
   }
 
   _handleLikeIcon() {
