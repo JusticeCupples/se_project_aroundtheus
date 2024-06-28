@@ -1,10 +1,11 @@
 export default class Card {
-  constructor({ name, link, alt }, cardSelector, handleImageClick) {
+  constructor({ name, link, alt }, cardSelector, handleImageClick, handleDeleteClick) {
     this._name = name;
     this._link = link;
     this._alt = alt;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
+    this._handleDeleteClick = handleDeleteClick; 
   }
 
   _setEventListeners() {
@@ -17,7 +18,7 @@ export default class Card {
     this._cardElement
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
-        this._handleDeleteCard();
+        this._handleDeleteClick(this);
       });
 
     this._cardElement
@@ -27,15 +28,9 @@ export default class Card {
       });
   }
 
-  _handleDeleteCard() {
-    const confirmDeleteButton = document.querySelector("#confirm-delete-button");
-  
-    confirmDeleteButton.onclick = () => {
-      this._cardElement.remove();
-      this._cardElement = null;
-      document.querySelector("#modal-confirm-delete").classList.remove("modal_open");
-    };
-    document.querySelector("#modal-confirm-delete").classList.add("modal_open");
+  removeCard() {
+    this._cardElement.remove();
+    this._cardElement = null;
   }
 
   _handleLikeIcon() {

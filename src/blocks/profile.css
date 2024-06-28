@@ -24,7 +24,6 @@
   transition-timing-function: ease-out;
   transition: 2s;
   cursor: pointer;
-  display: none;
 }
 
 .profile__info {

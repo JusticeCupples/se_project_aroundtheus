@@ -5,7 +5,7 @@ import UserInfo from "../components/UserInfo.js";
 import { initialCards, validationConfig } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
 import "./index.css";
-import Card from "../components/card.js";
+import Card from "../components/Card.js";
 
 // Selectors
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -19,13 +19,32 @@ const handleImageClick = (link, alt, name) => {
   imagePopup.open({ link, alt, name });
 };
 
+const handleDeleteClick = (cardInstance) => {
+  const confirmDeleteModal = document.querySelector("#modal-confirm-delete");
+  const confirmDeleteButton = confirmDeleteModal.querySelector("#confirm-delete-button");
+
+  confirmDeleteModal.classList.add("modal_opened");
+
+  const closeModal = () => {
+    confirmDeleteModal.classList.remove("modal_opened");
+  };
+
+  confirmDeleteButton.onclick = () => {
+    cardInstance.removeCard();
+    closeModal();
+  };
+
+  const closeButton = confirmDeleteModal.querySelector(".modal__close-button");
+  closeButton.onclick = closeModal;
+};
+
 const userInfo = new UserInfo({
   nameSelector: ".profile__name",
   jobSelector: ".profile__description",
 });
 
 const renderCard = (item) => {
-  const card = new Card(item, "#card-template", handleImageClick);
+  const card = new Card(item, "#card-template", handleImageClick, handleDeleteClick);
   const cardElement = card.getView();
   cardList.addItem(cardElement);
 };
