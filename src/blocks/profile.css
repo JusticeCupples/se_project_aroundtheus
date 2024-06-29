@@ -21,8 +21,42 @@
   margin: auto 0 auto;
   position: absolute;
   left: 50px;
+  bottom: 50px;
   transition-timing-function: ease-out;
   transition: 2s;
+  cursor: pointer;
+  display: none;
+  z-index: 2;
+}
+
+.profile__image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile__image:hover {
+  opacity: 80%;
+}
+
+.profile__image-container:hover .pfp__edit-button {
+  display: block;
+}
+
+.profile__eclipse {
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 1);
+  opacity: 0;
+  border-radius: 50%;
+  z-index: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.profile__image-container:hover .profile__eclipse {
+  opacity: 0.8;
   cursor: pointer;
 }
 

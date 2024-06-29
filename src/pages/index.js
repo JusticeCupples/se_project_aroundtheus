@@ -12,6 +12,7 @@ const profileEditButton = document.querySelector(".profile__edit-button");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 const addNewCardButton = document.querySelector(".profile__add-button");
+const profileEclipse = document.querySelector(".profile__eclipse");
 
 // Instances
 
@@ -33,6 +34,7 @@ const handleDeleteClick = (cardInstance) => {
     cardInstance.removeCard();
     closeModal();
   };
+
 
   const closeButton = confirmDeleteModal.querySelector(".modal__close-button");
   closeButton.onclick = closeModal;
@@ -113,6 +115,10 @@ addCardFormValidator.enableValidation();
 addNewCardButton.addEventListener("click", () => {
   addCardFormValidator.toggleButtonState();
   addCardPopup.open();
+});
+
+profileEclipse.addEventListener("click", () => {
+  editPfpPopup.open();
 });
 
 // Form validation setup
