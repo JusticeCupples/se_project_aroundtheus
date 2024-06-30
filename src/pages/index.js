@@ -2,25 +2,24 @@ import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
-import { initialCards, validationConfig } from "../utils/constants.js";
+import { validationConfig } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
-import "./index.css";
 import Card from "../components/Card.js";
+import { api } from "../components/Api.js";
+import { initialCards } from "../utils/constants.js";
+import "./index.css";
 
 // Selectors
 const profileEditButton = document.querySelector(".profile__edit-button");
-const profileName = document.querySelector(".profile__name");
-const profileDescription = document.querySelector(".profile__description");
 const addNewCardButton = document.querySelector(".profile__add-button");
 const profileEclipse = document.querySelector(".profile__eclipse");
 
 // Instances
-
 const handleImageClick = (link, alt, name) => {
   imagePopup.open({ link, alt, name });
 };
 
-const handleDeleteClick = (cardInstance) => {
+const handleDeleteClick = (cardInstance, cardId) => {
   const confirmDeleteModal = document.querySelector("#modal-confirm-delete");
   const confirmDeleteButton = confirmDeleteModal.querySelector("#confirm-delete-button");
 
@@ -31,51 +30,84 @@ const handleDeleteClick = (cardInstance) => {
   };
 
   confirmDeleteButton.onclick = () => {
-    cardInstance.removeCard();
-    closeModal();
+    api.deleteCard(cardId)
+      .then(() => {
+        cardInstance.removeCard();
+        closeModal();
+      })
+      .catch(err => console.error(err));
   };
-
 
   const closeButton = confirmDeleteModal.querySelector(".modal__close-button");
   closeButton.onclick = closeModal;
+
+  // Close modal on clicking outside
+  window.addEventListener('click', (event) => {
+    if (event.target === confirmDeleteModal) {
+      closeModal();
+    }
+  });
+
+  // Close modal on pressing Esc
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
+  });
 };
 
 const userInfo = new UserInfo({
   nameSelector: ".profile__name",
   jobSelector: ".profile__description",
+  avatarSelector: "#profile-image",
 });
 
 const renderCard = (item) => {
-  const card = new Card(item, "#card-template", handleImageClick, handleDeleteClick);
+  const card = new Card(
+    { 
+      name: item.name, 
+      link: item.link, 
+      alt: item.alt,
+      _id: item._id, 
+      likes: item.likes 
+    }, 
+    "#card-template", 
+    handleImageClick, 
+    handleDeleteClick
+  );
   const cardElement = card.getView();
   cardList.addItem(cardElement);
 };
 
 const cardList = new Section(
   {
-    items: initialCards.reverse(),
+    items: [],
     renderer: renderCard,
   },
   ".cards__list"
 );
 
-cardList.renderItems();
-
 const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {
-  renderCard({ name: formData.title, link: formData.url, alt: formData.title });
-  addCardPopup.close();
+  api.addCard({ name: formData.title, link: formData.url })
+    .then(data => {
+      renderCard(data);
+      addCardPopup.close();
+    })
+    .catch(err => console.error(err));
 });
 
-const pfpEditButton = document.querySelector(".pfp__edit-button");
-
 const editPfpPopup = new PopupWithForm("#modal-edit-pfp", (formData) => {
-  document.querySelector(".profile__image").src = formData.url;
-  editPfpPopup.close();
+  api.updateAvatar({ avatar: formData.url })
+    .then(data => {
+      userInfo.setUserAvatar(data.avatar);
+      editPfpPopup.close();
+    })
+    .catch(err => console.error(err));
 });
 
 editPfpPopup.setEventListeners();
 
-pfpEditButton.addEventListener("click", () => {
+profileEclipse.addEventListener("click", () => {
   editPfpPopup.open();
 });
 
@@ -84,19 +116,22 @@ addCardPopup.setEventListeners();
 const editProfilePopup = new PopupWithForm(
   "#modal-edit-profile",
   (formData) => {
-    userInfo.setUserInfo(formData.name, formData.description);
-    editProfilePopup.close();
+    api.updateUserInfo({ name: formData.name, about: formData.description })
+      .then(data => {
+        userInfo.setUserInfo(data.name, data.about);
+        editProfilePopup.close();
+      })
+      .catch(err => console.error(err));
   }
 );
+
 editProfilePopup.setEventListeners();
 
 const imagePopup = new PopupWithImage("#modal-image-inspect");
 imagePopup.setEventListeners();
 
 const profileNameInput = document.querySelector("#profile-name-input");
-const profileDescriptionInput = document.querySelector(
-  "#profile-description-input"
-);
+const profileDescriptionInput = document.querySelector("#profile-description-input");
 
 // Event Listeners
 profileEditButton.addEventListener("click", () => {
@@ -117,14 +152,20 @@ addNewCardButton.addEventListener("click", () => {
   addCardPopup.open();
 });
 
-profileEclipse.addEventListener("click", () => {
-  editPfpPopup.open();
-});
-
-// Form validation setup
 document
   .querySelectorAll(validationConfig.formSelector)
   .forEach((formElement) => {
     const formValidator = new FormValidator(validationConfig, formElement);
     formValidator.enableValidation();
+  });
+
+// Fetch initial data
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, fetchedCards]) => {
+    userInfo.setUserInfo(userData.name, userData.about);
+    userInfo.setUserAvatar(userData.avatar);
+    
+    initialCards.forEach(card => renderCard(card));
+
+    fetchedCards.forEach(card => renderCard(card));
   });
