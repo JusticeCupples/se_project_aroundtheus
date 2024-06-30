@@ -2,11 +2,10 @@ import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
-import { validationConfig } from "../utils/constants.js";
+import { initialCards, validationConfig } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
 import { api } from "../components/Api.js";
-import { initialCards } from "../utils/constants.js";
 import "./index.css";
 
 // Selectors
@@ -86,6 +85,7 @@ const renderCard = (item) => {
       alt: item.alt,
       _id: item._id,
       likes: item.likes,
+      isLiked: item.isLiked,
     },
     "#card-template",
     handleImageClick,
@@ -226,8 +226,14 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
 // Function to handle like button click
 const handleLikeClick = (cardId, isLiked) => {
   if (isLiked) {
-    return api.likeCard(cardId);
+    return api.likeCard(cardId).then((data) => ({
+      ...data,
+      isLiked: true,
+    }));
   } else {
-    return api.dislikeCard(cardId);
+    return api.dislikeCard(cardId).then((data) => ({
+      ...data,
+      isLiked: false,
+    }));
   }
 };

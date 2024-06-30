@@ -1,6 +1,6 @@
 export default class Card {
   constructor(
-    { name, link, alt, _id, likes = [] },
+    { name, link, alt, _id, likes = [], isLiked = false },
     cardSelector,
     handleImageClick,
     handleDeleteClick,
@@ -11,7 +11,8 @@ export default class Card {
     this._link = link;
     this._alt = alt;
     this._id = _id;
-    this._likes = likes;
+    this._likes = likes || [];
+    this._isLiked = isLiked;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteClick = handleDeleteClick;
@@ -47,12 +48,28 @@ export default class Card {
       "card__like-button_active"
     );
     this._handleLikeClick(this._id, !isLiked)
-      .then((updatedLikes) => {
-        this._likes = updatedLikes;
-        this._likeButton.classList.toggle("card__like-button_active");
+      .then((updatedCard) => {
+        console.log("Updated Card:", updatedCard);
+        if (updatedCard && typeof updatedCard.isLiked !== "undefined") {
+          this._isLiked = updatedCard.isLiked;
+          this._likeButton.classList.toggle("card__like-button_active");
+          this._updateLikeCounter();
+        } else {
+          console.error("isLiked field not found in response");
+        }
       })
       .catch((err) => console.error(err));
   }
+
+  _updateLikeCounter() {
+    const likeCounter = this._cardElement.querySelector(".card__like-counter");
+    if (this._isLiked) {
+      likeCounter.textContent = parseInt(likeCounter.textContent) + 1;
+    } else {
+      likeCounter.textContent = parseInt(likeCounter.textContent) - 1;
+    }
+  }
+
   getView() {
     this._cardElement = document
       .querySelector(this._cardSelector)
@@ -67,8 +84,10 @@ export default class Card {
     cardImageEl.setAttribute("alt", this._alt);
     cardTextEl.textContent = this._name;
 
-    const userId = this._userInfo.getUserId();
-    if (this._likes && this._likes.some((like) => like._id === userId)) {
+    const likeCounter = this._cardElement.querySelector(".card__like-counter");
+    likeCounter.textContent = this._likes.length;
+
+    if (this._isLiked) {
       this._likeButton.classList.add("card__like-button_active");
     }
 
