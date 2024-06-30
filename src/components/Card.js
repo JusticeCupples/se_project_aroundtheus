@@ -1,20 +1,28 @@
 export default class Card {
-  constructor({ name, link, alt, _id }, cardSelector, handleImageClick, handleDeleteClick) {
+  constructor(
+    { name, link, alt, _id, likes = [] },
+    cardSelector,
+    handleImageClick,
+    handleDeleteClick,
+    handleLikeClick,
+    userInfo
+  ) {
     this._name = name;
     this._link = link;
     this._alt = alt;
     this._id = _id;
+    this._likes = likes;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
-    this._handleDeleteClick = handleDeleteClick; 
+    this._handleDeleteClick = handleDeleteClick;
+    this._handleLikeClick = handleLikeClick;
+    this._userInfo = userInfo;
   }
 
   _setEventListeners() {
-    this._cardElement
-      .querySelector(".card__like-button")
-      .addEventListener("click", () => {
-        this._handleLikeIcon();
-      });
+    this._likeButton.addEventListener("click", () => {
+      this._toggleLike();
+    });
 
     this._cardElement
       .querySelector(".card__delete-button")
@@ -34,12 +42,17 @@ export default class Card {
     this._cardElement = null;
   }
 
-  _handleLikeIcon() {
-    this._cardElement
-      .querySelector(".card__like-button")
-      .classList.toggle("card__like-button_active");
+  _toggleLike() {
+    const isLiked = this._likeButton.classList.contains(
+      "card__like-button_active"
+    );
+    this._handleLikeClick(this._id, !isLiked)
+      .then((updatedLikes) => {
+        this._likes = updatedLikes;
+        this._likeButton.classList.toggle("card__like-button_active");
+      })
+      .catch((err) => console.error(err));
   }
-
   getView() {
     this._cardElement = document
       .querySelector(this._cardSelector)
@@ -48,10 +61,16 @@ export default class Card {
 
     const cardImageEl = this._cardElement.querySelector(".card__image");
     const cardTextEl = this._cardElement.querySelector(".card__text");
+    this._likeButton = this._cardElement.querySelector(".card__like-button");
 
     cardImageEl.setAttribute("src", this._link);
     cardImageEl.setAttribute("alt", this._alt);
     cardTextEl.textContent = this._name;
+
+    const userId = this._userInfo.getUserId();
+    if (this._likes && this._likes.some((like) => like._id === userId)) {
+      this._likeButton.classList.add("card__like-button_active");
+    }
 
     this._setEventListeners();
 

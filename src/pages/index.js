@@ -22,7 +22,11 @@ const closeModal = (modal) => {
 // Function to handle clicks outside of the modal
 const handleOutsideClick = (event) => {
   const openedModal = document.querySelector(".modal_opened");
-  if (openedModal !== null && openedModal.querySelector(".modal__container") !== null && !openedModal.querySelector(".modal__container").contains(event.target)) {
+  if (
+    openedModal !== null &&
+    openedModal.querySelector(".modal__container") !== null &&
+    !openedModal.querySelector(".modal__container").contains(event.target)
+  ) {
     closeModal(openedModal);
   }
 };
@@ -48,17 +52,20 @@ const handleImageClick = (link, alt, name) => {
 
 const handleDeleteClick = (cardInstance, cardId) => {
   const confirmDeleteModal = document.querySelector("#modal-confirm-delete");
-  const confirmDeleteButton = confirmDeleteModal.querySelector("#confirm-delete-button");
+  const confirmDeleteButton = confirmDeleteModal.querySelector(
+    "#confirm-delete-button"
+  );
 
   confirmDeleteModal.classList.add("modal_opened");
 
   confirmDeleteButton.onclick = () => {
-    api.deleteCard(cardId)
+    api
+      .deleteCard(cardId)
       .then(() => {
         cardInstance.removeCard();
         closeModal(confirmDeleteModal);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   const closeButton = confirmDeleteModal.querySelector(".modal__close-button");
@@ -73,16 +80,18 @@ const userInfo = new UserInfo({
 
 const renderCard = (item) => {
   const card = new Card(
-    { 
-      name: item.name, 
-      link: item.link, 
+    {
+      name: item.name,
+      link: item.link,
       alt: item.alt,
-      _id: item._id, 
-      likes: item.likes 
-    }, 
-    "#card-template", 
-    handleImageClick, 
-    handleDeleteClick
+      _id: item._id,
+      likes: item.likes,
+    },
+    "#card-template",
+    handleImageClick,
+    handleDeleteClick,
+    handleLikeClick,
+    userInfo
   );
   const cardElement = card.getView();
   cardList.addItem(cardElement);
@@ -114,12 +123,13 @@ class CustomPopupWithForm extends PopupWithForm {
 const addCardPopup = new CustomPopupWithForm("#modal-add-card", (formData) => {
   addCardPopup.setLoadingState(true);
 
-  api.addCard({ name: formData.title, link: formData.url })
-    .then(data => {
+  api
+    .addCard({ name: formData.title, link: formData.url })
+    .then((data) => {
       renderCard(data);
       addCardPopup.close();
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
     .finally(() => {
       addCardPopup.setLoadingState(false);
     });
@@ -128,12 +138,13 @@ const addCardPopup = new CustomPopupWithForm("#modal-add-card", (formData) => {
 const editPfpPopup = new CustomPopupWithForm("#modal-edit-pfp", (formData) => {
   editPfpPopup.setLoadingState(true);
 
-  api.updateAvatar({ avatar: formData.url })
-    .then(data => {
+  api
+    .updateAvatar({ avatar: formData.url })
+    .then((data) => {
       userInfo.setUserAvatar(data.avatar);
       editPfpPopup.close();
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
     .finally(() => {
       editPfpPopup.setLoadingState(false);
     });
@@ -152,12 +163,13 @@ const editProfilePopup = new CustomPopupWithForm(
   (formData) => {
     editProfilePopup.setLoadingState(true);
 
-    api.updateUserInfo({ name: formData.name, about: formData.description })
-      .then(data => {
+    api
+      .updateUserInfo({ name: formData.name, about: formData.description })
+      .then((data) => {
         userInfo.setUserInfo(data.name, data.about);
         editProfilePopup.close();
       })
-      .catch(err => console.error(err))
+      .catch((err) => console.error(err))
       .finally(() => {
         editProfilePopup.setLoadingState(false);
       });
@@ -170,7 +182,9 @@ const imagePopup = new PopupWithImage("#modal-image-inspect");
 imagePopup.setEventListeners();
 
 const profileNameInput = document.querySelector("#profile-name-input");
-const profileDescriptionInput = document.querySelector("#profile-description-input");
+const profileDescriptionInput = document.querySelector(
+  "#profile-description-input"
+);
 
 // Event Listeners
 profileEditButton.addEventListener("click", () => {
@@ -199,11 +213,21 @@ document
   });
 
 // Fetch initial data
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([userData, fetchedCards]) => {
-    userInfo.setUserInfo(userData.name, userData.about);
+Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
+  ([userData, fetchedCards]) => {
+    userInfo.setUserInfo(userData.name, userData.about, userData._id);
     userInfo.setUserAvatar(userData.avatar);
 
-    initialCards.forEach(card => renderCard(card));
-    fetchedCards.forEach(card => renderCard(card));
-  });
+    initialCards.forEach((card) => renderCard(card));
+    fetchedCards.forEach((card) => renderCard(card));
+  }
+);
+
+// Function to handle like button click
+const handleLikeClick = (cardId, isLiked) => {
+  if (isLiked) {
+    return api.likeCard(cardId);
+  } else {
+    return api.dislikeCard(cardId);
+  }
+};
