@@ -40,20 +40,6 @@ const handleDeleteClick = (cardInstance, cardId) => {
 
   const closeButton = confirmDeleteModal.querySelector(".modal__close-button");
   closeButton.onclick = closeModal;
-
-  // Close modal on clicking outside
-  window.addEventListener('click', (event) => {
-    if (event.target === confirmDeleteModal) {
-      closeModal();
-    }
-  });
-
-  // Close modal on pressing Esc
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      closeModal();
-    }
-  });
 };
 
 const userInfo = new UserInfo({
@@ -87,22 +73,51 @@ const cardList = new Section(
   ".cards__list"
 );
 
-const addCardPopup = new PopupWithForm("#modal-add-card", (formData) => {
+// Extend PopupWithForm for loading state handling
+class CustomPopupWithForm extends PopupWithForm {
+  setLoadingState(isLoading) {
+    const saveButton = this._popup.querySelector(".modal__button");
+
+    if (isLoading) {
+      saveButton.textContent = "Saving...";
+      saveButton.disabled = true;
+    } else {
+      saveButton.textContent = "Save";
+      saveButton.disabled = false;
+    }
+  }
+}
+
+const addCardPopup = new CustomPopupWithForm("#modal-add-card", (formData) => {
+  // Update button text and disable it
+  addCardPopup.setLoadingState(true);
+
   api.addCard({ name: formData.title, link: formData.url })
     .then(data => {
       renderCard(data);
       addCardPopup.close();
     })
-    .catch(err => console.error(err));
+    .catch(err => console.error(err))
+    .finally(() => {
+      // Reset button text and enable it
+      addCardPopup.setLoadingState(false);
+    });
 });
 
-const editPfpPopup = new PopupWithForm("#modal-edit-pfp", (formData) => {
+const editPfpPopup = new CustomPopupWithForm("#modal-edit-pfp", (formData) => {
+  // Update button text and disable it
+  editPfpPopup.setLoadingState(true);
+
   api.updateAvatar({ avatar: formData.url })
     .then(data => {
       userInfo.setUserAvatar(data.avatar);
       editPfpPopup.close();
     })
-    .catch(err => console.error(err));
+    .catch(err => console.error(err))
+    .finally(() => {
+      // Reset button text and enable it
+      editPfpPopup.setLoadingState(false);
+    });
 });
 
 editPfpPopup.setEventListeners();
@@ -113,15 +128,22 @@ profileEclipse.addEventListener("click", () => {
 
 addCardPopup.setEventListeners();
 
-const editProfilePopup = new PopupWithForm(
+const editProfilePopup = new CustomPopupWithForm(
   "#modal-edit-profile",
   (formData) => {
+    // Update button text and disable it
+    editProfilePopup.setLoadingState(true);
+
     api.updateUserInfo({ name: formData.name, about: formData.description })
       .then(data => {
         userInfo.setUserInfo(data.name, data.about);
         editProfilePopup.close();
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
+      .finally(() => {
+        // Reset button text and enable it
+        editProfilePopup.setLoadingState(false);
+      });
   }
 );
 
