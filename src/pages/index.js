@@ -14,6 +14,33 @@ const profileEditButton = document.querySelector(".profile__edit-button");
 const addNewCardButton = document.querySelector(".profile__add-button");
 const profileEclipse = document.querySelector(".profile__eclipse");
 
+// Add a function to handle closing the modal
+const closeModal = (modal) => {
+  modal.classList.remove("modal_opened");
+};
+
+// Function to handle clicks outside of the modal
+const handleOutsideClick = (event) => {
+  const openedModal = document.querySelector(".modal_opened");
+  if (openedModal !== null && openedModal.querySelector(".modal__container") !== null && !openedModal.querySelector(".modal__container").contains(event.target)) {
+    closeModal(openedModal);
+  }
+};
+
+// Function to handle "Esc" key press
+const handleEscKeyPress = (event) => {
+  if (event.key === "Escape") {
+    const openedModal = document.querySelector(".modal_opened");
+    if (openedModal) {
+      closeModal(openedModal);
+    }
+  }
+};
+
+// Add event listeners for clicks and key presses
+document.addEventListener("mousedown", handleOutsideClick);
+document.addEventListener("keydown", handleEscKeyPress);
+
 // Instances
 const handleImageClick = (link, alt, name) => {
   imagePopup.open({ link, alt, name });
@@ -25,21 +52,17 @@ const handleDeleteClick = (cardInstance, cardId) => {
 
   confirmDeleteModal.classList.add("modal_opened");
 
-  const closeModal = () => {
-    confirmDeleteModal.classList.remove("modal_opened");
-  };
-
   confirmDeleteButton.onclick = () => {
     api.deleteCard(cardId)
       .then(() => {
         cardInstance.removeCard();
-        closeModal();
+        closeModal(confirmDeleteModal);
       })
       .catch(err => console.error(err));
   };
 
   const closeButton = confirmDeleteModal.querySelector(".modal__close-button");
-  closeButton.onclick = closeModal;
+  closeButton.onclick = () => closeModal(confirmDeleteModal);
 };
 
 const userInfo = new UserInfo({
@@ -89,7 +112,6 @@ class CustomPopupWithForm extends PopupWithForm {
 }
 
 const addCardPopup = new CustomPopupWithForm("#modal-add-card", (formData) => {
-  // Update button text and disable it
   addCardPopup.setLoadingState(true);
 
   api.addCard({ name: formData.title, link: formData.url })
@@ -99,13 +121,11 @@ const addCardPopup = new CustomPopupWithForm("#modal-add-card", (formData) => {
     })
     .catch(err => console.error(err))
     .finally(() => {
-      // Reset button text and enable it
       addCardPopup.setLoadingState(false);
     });
 });
 
 const editPfpPopup = new CustomPopupWithForm("#modal-edit-pfp", (formData) => {
-  // Update button text and disable it
   editPfpPopup.setLoadingState(true);
 
   api.updateAvatar({ avatar: formData.url })
@@ -115,7 +135,6 @@ const editPfpPopup = new CustomPopupWithForm("#modal-edit-pfp", (formData) => {
     })
     .catch(err => console.error(err))
     .finally(() => {
-      // Reset button text and enable it
       editPfpPopup.setLoadingState(false);
     });
 });
@@ -131,7 +150,6 @@ addCardPopup.setEventListeners();
 const editProfilePopup = new CustomPopupWithForm(
   "#modal-edit-profile",
   (formData) => {
-    // Update button text and disable it
     editProfilePopup.setLoadingState(true);
 
     api.updateUserInfo({ name: formData.name, about: formData.description })
@@ -141,7 +159,6 @@ const editProfilePopup = new CustomPopupWithForm(
       })
       .catch(err => console.error(err))
       .finally(() => {
-        // Reset button text and enable it
         editProfilePopup.setLoadingState(false);
       });
   }
@@ -186,8 +203,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, fetchedCards]) => {
     userInfo.setUserInfo(userData.name, userData.about);
     userInfo.setUserAvatar(userData.avatar);
-    
-    initialCards.forEach(card => renderCard(card));
 
+    initialCards.forEach(card => renderCard(card));
     fetchedCards.forEach(card => renderCard(card));
   });
