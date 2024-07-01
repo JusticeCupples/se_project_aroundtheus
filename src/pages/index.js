@@ -1,11 +1,12 @@
+import { initialCards } from "../utils/constants.js";
+import { validationConfig } from "../utils/constants.js";
+import { api } from "../components/Api.js";
+import Card from "../components/Card.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
-import { initialCards, validationConfig } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
-import Card from "../components/Card.js";
-import { api } from "../components/Api.js";
 import "./index.css";
 
 // Selectors
@@ -69,6 +70,27 @@ const handleDeleteClick = (cardInstance, cardId) => {
 
   const closeButton = confirmDeleteModal.querySelector(".modal__close-button");
   closeButton.onclick = () => closeModal(confirmDeleteModal);
+};
+
+const handleLikeClick = (cardId, isLiked) => {
+  console.log(`handleLikeClick called for cardId: ${cardId}, isLiked: ${isLiked}`);
+  if (isLiked) {
+    return api.likeCard(cardId).then((data) => {
+      console.log(`Liked card with ID: ${cardId}`);
+      return {
+        ...data,
+        isLiked: true,
+      };
+    });
+  } else {
+    return api.dislikeCard(cardId).then((data) => {
+      console.log(`Disliked card with ID: ${cardId}`);
+      return {
+        ...data,
+        isLiked: false,
+      };
+    });
+  }
 };
 
 const userInfo = new UserInfo({
@@ -212,28 +234,39 @@ document
     formValidator.enableValidation();
   });
 
-// Fetch initial data
-Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
-  ([userData, fetchedCards]) => {
+const syncInitialCards = async () => {
+  try {
+    // Fetch server cards
+    const serverCards = await api.getInitialCards();
+    const serverCardIds = serverCards.map(card => card._id);
+
+    // Filter out initialCards that are not already on the server
+    const cardsToAdd = initialCards.filter(card => !serverCardIds.includes(card._id));
+
+    // Add filtered initialCards to the server
+    const addCardPromises = cardsToAdd.map(card => {
+      return api.addCard({
+        name: card.name,
+        link: card.link
+      });
+    });
+
+    await Promise.all(addCardPromises);
+    console.log('Initial cards synced successfully');
+  } catch (error) {
+    console.error('Error syncing initial cards:', error);
+  }
+};
+
+// Call syncInitialCards, then fetch user info and cards data
+syncInitialCards()
+  .then(() => Promise.all([api.getUserInfo(), api.getInitialCards()]))
+  .then(([userData, fetchedCards]) => {
+    // Set user info and avatar
     userInfo.setUserInfo(userData.name, userData.about, userData._id);
     userInfo.setUserAvatar(userData.avatar);
 
-    initialCards.forEach((card) => renderCard(card));
-    fetchedCards.forEach((card) => renderCard(card));
-  }
-);
-
-// Function to handle like button click
-const handleLikeClick = (cardId, isLiked) => {
-  if (isLiked) {
-    return api.likeCard(cardId).then((data) => ({
-      ...data,
-      isLiked: true,
-    }));
-  } else {
-    return api.dislikeCard(cardId).then((data) => ({
-      ...data,
-      isLiked: false,
-    }));
-  }
-};
+    // Render fetched cards
+    fetchedCards.forEach(card => renderCard(card));
+  })
+  .catch(error => console.error('Error fetching initial data:', error));

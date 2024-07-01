@@ -11,7 +11,7 @@ export default class Card {
     this._link = link;
     this._alt = alt;
     this._id = _id;
-    this._likes = likes || [];
+    this._likes = likes;
     this._isLiked = isLiked;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
@@ -44,20 +44,21 @@ export default class Card {
   }
 
   _toggleLike() {
-    const isLiked = this._likeButton.classList.contains(
-      "card__like-button_active"
-    );
+    const isLiked = this._likeButton.classList.contains("card__like-button_active");
+    console.log(`Toggling like for card with ID: ${this._id}`);
     this._handleLikeClick(this._id, !isLiked)
       .then((updatedCard) => {
         console.log("Updated Card:", updatedCard);
         if (updatedCard && typeof updatedCard.isLiked !== "undefined") {
           this._isLiked = updatedCard.isLiked;
-          this._likeButton.classList.toggle("card__like-button_active");
+          this._likeButton.classList.toggle("card__like-button_active", this._isLiked);
         } else {
           console.error("isLiked field not found in response");
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error("Error in _toggleLike:", err.status, err.data);
+      });
   }
 
   getView() {

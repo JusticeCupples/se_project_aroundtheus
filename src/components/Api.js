@@ -5,10 +5,12 @@ export default class Api {
   }
 
   _checkResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}`);
+    return res.json().then((data) => {
+      if (!res.ok) {
+        return Promise.reject({ status: res.status, data });
+      }
+      return data;
+    });
   }
 
   getInitialCards() {
@@ -63,6 +65,7 @@ export default class Api {
   }
 
   likeCard(cardId) {
+    console.log("Sending like request for cardId:", cardId);
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
@@ -70,6 +73,7 @@ export default class Api {
   }
 
   dislikeCard(cardId) {
+    console.log("Sending dislike request for cardId:", cardId);
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
