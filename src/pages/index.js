@@ -7,29 +7,18 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import FormValidator from "../components/FormValidator.js";
+import Popup from "../components/Popup.js";
+import CustomPopupWithForm from "../components/CustomPopupWithForm.js";
 import "./index.css";
 
 // Selectors
 const profileEditButton = document.querySelector(".profile__edit-button");
 const addNewCardButton = document.querySelector(".profile__add-button");
 const profileEclipse = document.querySelector(".profile__eclipse");
-
-// Add a function to handle closing the modal
-const closeModal = (modal) => {
-  modal.classList.remove("modal_opened");
-};
-
-// Function to handle clicks outside of the modal
-const handleOutsideClick = (event) => {
-  const openedModal = document.querySelector(".modal_opened");
-  if (
-    openedModal !== null &&
-    openedModal.querySelector(".modal__container") !== null &&
-    !openedModal.querySelector(".modal__container").contains(event.target)
-  ) {
-    closeModal(openedModal);
-  }
-};
+const profileNameInput = document.querySelector("#profile-name-input");
+const profileDescriptionInput = document.querySelector(
+  "#profile-description-input"
+);
 
 const isInitialCardsSynced = () => {
   return localStorage.getItem("initialCardsSynced") === "true";
@@ -39,43 +28,24 @@ const setInitialCardsSynced = () => {
   localStorage.setItem("initialCardsSynced", "true");
 };
 
-// Function to handle "Esc" key press
-const handleEscKeyPress = (event) => {
-  if (event.key === "Escape") {
-    const openedModal = document.querySelector(".modal_opened");
-    if (openedModal) {
-      closeModal(openedModal);
-    }
-  }
-};
-
-// Add event listeners for clicks and key presses
-document.addEventListener("mousedown", handleOutsideClick);
-document.addEventListener("keydown", handleEscKeyPress);
-
 // Instances
 const handleImageClick = (link, alt, name) => {
   imagePopup.open({ link, alt, name });
 };
 
 const handleDeleteClick = (cardInstance, cardId) => {
-  const confirmDeleteModal = document.querySelector("#modal-confirm-delete");
-  const confirmDeleteButton = confirmDeleteModal.querySelector("#confirm-delete-button");
-
-  confirmDeleteModal.classList.add("modal_opened");
+  confirmDeletePopup.open();
+  const confirmDeleteButton = document.querySelector("#confirm-delete-button");
 
   confirmDeleteButton.onclick = () => {
     api
       .deleteCard(cardId)
       .then(() => {
         cardInstance.removeCard();
-        closeModal(confirmDeleteModal);
+        confirmDeletePopup.close();
       })
       .catch((err) => console.error(err));
   };
-
-  const closeButton = confirmDeleteModal.querySelector(".modal__close-button");
-  closeButton.onclick = () => closeModal(confirmDeleteModal);
 };
 
 const handleLikeClick = (cardId, isLiked) => {
@@ -124,21 +94,6 @@ const cardList = new Section(
   ".cards__list"
 );
 
-// Extend PopupWithForm for loading state handling
-class CustomPopupWithForm extends PopupWithForm {
-  setLoadingState(isLoading) {
-    const saveButton = this._popup.querySelector(".modal__button");
-
-    if (isLoading) {
-      saveButton.textContent = "Saving...";
-      saveButton.disabled = true;
-    } else {
-      saveButton.textContent = "Save";
-      saveButton.disabled = false;
-    }
-  }
-}
-
 const addCardPopup = new CustomPopupWithForm("#modal-add-card", (formData) => {
   addCardPopup.setLoadingState(true);
 
@@ -154,57 +109,74 @@ const addCardPopup = new CustomPopupWithForm("#modal-add-card", (formData) => {
     });
 });
 
-const editPfpPopup = new CustomPopupWithForm("#modal-edit-pfp", (formData) => {
-  editPfpPopup.setLoadingState(true);
+const avatarPopup = new CustomPopupWithForm("#modal-edit-pfp", (formData) => {
+  avatarPopup.setLoadingState(true);
 
   api
     .updateAvatar({ avatar: formData.url })
     .then((data) => {
       userInfo.setUserAvatar(data.avatar);
-      editPfpPopup.close();
+      avatarPopup.close();
     })
     .catch((err) => console.error(err))
     .finally(() => {
-      editPfpPopup.setLoadingState(false);
+      avatarPopup.setLoadingState(false);
     });
 });
 
-editPfpPopup.setEventListeners();
+avatarPopup.setEventListeners();
 
 profileEclipse.addEventListener("click", () => {
-  editPfpPopup.open();
+  avatarPopup.open();
 });
 
 addCardPopup.setEventListeners();
 
-const editProfilePopup = new CustomPopupWithForm("#modal-edit-profile", (formData) => {
-  editProfilePopup.setLoadingState(true);
+const editProfilePopup = new CustomPopupWithForm(
+  "#modal-edit-profile",
+  (formData) => {
+    editProfilePopup.setLoadingState(true);
 
-  api
-    .updateUserInfo({ name: formData.name, about: formData.description })
-    .then((data) => {
-      userInfo.setUserInfo(data.name, data.about);
-      editProfilePopup.close();
-    })
-    .catch((err) => console.error(err))
-    .finally(() => {
-      editProfilePopup.setLoadingState(false);
-    });
-});
+    api
+      .updateUserInfo({ name: formData.name, about: formData.description })
+      .then((data) => {
+        userInfo.setUserInfo(data.name, data.about);
+        editProfilePopup.close();
+      })
+      .catch((err) => console.error(err))
+      .finally(() => {
+        editProfilePopup.setLoadingState(false);
+      });
+  }
+);
 
 editProfilePopup.setEventListeners();
 
 const imagePopup = new PopupWithImage("#modal-image-inspect");
 imagePopup.setEventListeners();
 
-const profileNameInput = document.querySelector("#profile-name-input");
-const profileDescriptionInput = document.querySelector("#profile-description-input");
+const confirmDeletePopup = new Popup("#modal-confirm-delete");
+confirmDeletePopup.setEventListeners();
+
+// Instantiate form validators for each modal form
+const avatarFormValidator = new FormValidator(
+  validationConfig,
+  document.querySelector("#modal-edit-pfp .modal__form")
+);
+const editProfileFormValidator = new FormValidator(
+  validationConfig,
+  document.querySelector("#modal-edit-profile .modal__form")
+);
+
+avatarFormValidator.enableValidation();
+editProfileFormValidator.enableValidation();
 
 // Event Listeners
 profileEditButton.addEventListener("click", () => {
   const currentUserInfo = userInfo.getUserInfo();
   profileNameInput.value = currentUserInfo.name;
   profileDescriptionInput.value = currentUserInfo.job;
+  editProfileFormValidator.toggleButtonState();
   editProfilePopup.open();
 });
 
@@ -219,45 +191,20 @@ addNewCardButton.addEventListener("click", () => {
   addCardPopup.open();
 });
 
-document.querySelectorAll(validationConfig.formSelector).forEach((formElement) => {
-  const formValidator = new FormValidator(validationConfig, formElement);
-  formValidator.enableValidation();
-});
-
 const syncInitialCards = async () => {
   if (isInitialCardsSynced()) {
     console.log("Initial cards are already synced");
     return;
   }
 
-  try {
-    const serverCards = await api.getInitialCards();
-    const serverCardIds = serverCards.map((card) => card._id);
-    const cardsToAdd = initialCards.filter((card) => !serverCardIds.includes(card._id));
-
-    if (cardsToAdd.length > 0) {
-      const addCardPromises = cardsToAdd.map((card) => {
-        console.log(`Adding card: ${card.name}`);
-        return api.addCard({
-          name: card.name,
-          link: card.link,
-        });
-      });
-
-      await Promise.all(addCardPromises);
-    }
-
-    setInitialCardsSynced();
-    console.log("Initial cards synced successfully");
-  } catch (error) {
-    console.error("Error syncing initial cards:", error);
-  }
+  setInitialCardsSynced();
+  console.log("Initial cards synced successfully");
 };
 
 const renderInitialCards = async () => {
   try {
     const fetchedCards = await api.getInitialCards();
-    fetchedCards.forEach((card) => renderCard(card));
+    cardList.renderItems(fetchedCards);
     console.log("Initial cards rendered successfully");
   } catch (error) {
     console.error("Error rendering initial cards:", error);
