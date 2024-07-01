@@ -53,21 +53,11 @@ export default class Card {
         if (updatedCard && typeof updatedCard.isLiked !== "undefined") {
           this._isLiked = updatedCard.isLiked;
           this._likeButton.classList.toggle("card__like-button_active");
-          this._updateLikeCounter();
         } else {
           console.error("isLiked field not found in response");
         }
       })
       .catch((err) => console.error(err));
-  }
-
-  _updateLikeCounter() {
-    const likeCounter = this._cardElement.querySelector(".card__like-counter");
-    if (this._isLiked) {
-      likeCounter.textContent = parseInt(likeCounter.textContent) + 1;
-    } else {
-      likeCounter.textContent = parseInt(likeCounter.textContent) - 1;
-    }
   }
 
   getView() {
@@ -83,9 +73,6 @@ export default class Card {
     cardImageEl.setAttribute("src", this._link);
     cardImageEl.setAttribute("alt", this._alt);
     cardTextEl.textContent = this._name;
-
-    const likeCounter = this._cardElement.querySelector(".card__like-counter");
-    likeCounter.textContent = this._likes.length;
 
     if (this._isLiked) {
       this._likeButton.classList.add("card__like-button_active");
