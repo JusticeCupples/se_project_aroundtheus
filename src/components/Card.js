@@ -44,14 +44,19 @@ export default class Card {
   }
 
   _toggleLike() {
-    const isLiked = this._likeButton.classList.contains("card__like-button_active");
+    const isLiked = this._likeButton.classList.contains(
+      "card__like-button_active"
+    );
     console.log(`Toggling like for card with ID: ${this._id}`);
     this._handleLikeClick(this._id, !isLiked)
       .then((updatedCard) => {
         console.log("Updated Card:", updatedCard);
         if (updatedCard && typeof updatedCard.isLiked !== "undefined") {
           this._isLiked = updatedCard.isLiked;
-          this._likeButton.classList.toggle("card__like-button_active", this._isLiked);
+          this._likeButton.classList.toggle(
+            "card__like-button_active",
+            this._isLiked
+          );
         } else {
           console.error("isLiked field not found in response");
         }
