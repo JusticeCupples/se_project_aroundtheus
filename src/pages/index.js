@@ -31,6 +31,14 @@ const handleOutsideClick = (event) => {
   }
 };
 
+const isInitialCardsSynced = () => {
+  return localStorage.getItem("initialCardsSynced") === "true";
+};
+
+const setInitialCardsSynced = () => {
+  localStorage.setItem("initialCardsSynced", "true");
+};
+
 // Function to handle "Esc" key press
 const handleEscKeyPress = (event) => {
   if (event.key === "Escape") {
@@ -52,9 +60,7 @@ const handleImageClick = (link, alt, name) => {
 
 const handleDeleteClick = (cardInstance, cardId) => {
   const confirmDeleteModal = document.querySelector("#modal-confirm-delete");
-  const confirmDeleteButton = confirmDeleteModal.querySelector(
-    "#confirm-delete-button"
-  );
+  const confirmDeleteButton = confirmDeleteModal.querySelector("#confirm-delete-button");
 
   confirmDeleteModal.classList.add("modal_opened");
 
@@ -73,22 +79,13 @@ const handleDeleteClick = (cardInstance, cardId) => {
 };
 
 const handleLikeClick = (cardId, isLiked) => {
-  console.log(`handleLikeClick called for cardId: ${cardId}, isLiked: ${isLiked}`);
   if (isLiked) {
     return api.likeCard(cardId).then((data) => {
-      console.log(`Liked card with ID: ${cardId}`);
-      return {
-        ...data,
-        isLiked: true,
-      };
+      return { ...data, isLiked: true };
     });
   } else {
     return api.dislikeCard(cardId).then((data) => {
-      console.log(`Disliked card with ID: ${cardId}`);
-      return {
-        ...data,
-        isLiked: false,
-      };
+      return { ...data, isLiked: false };
     });
   }
 };
@@ -180,23 +177,20 @@ profileEclipse.addEventListener("click", () => {
 
 addCardPopup.setEventListeners();
 
-const editProfilePopup = new CustomPopupWithForm(
-  "#modal-edit-profile",
-  (formData) => {
-    editProfilePopup.setLoadingState(true);
+const editProfilePopup = new CustomPopupWithForm("#modal-edit-profile", (formData) => {
+  editProfilePopup.setLoadingState(true);
 
-    api
-      .updateUserInfo({ name: formData.name, about: formData.description })
-      .then((data) => {
-        userInfo.setUserInfo(data.name, data.about);
-        editProfilePopup.close();
-      })
-      .catch((err) => console.error(err))
-      .finally(() => {
-        editProfilePopup.setLoadingState(false);
-      });
-  }
-);
+  api
+    .updateUserInfo({ name: formData.name, about: formData.description })
+    .then((data) => {
+      userInfo.setUserInfo(data.name, data.about);
+      editProfilePopup.close();
+    })
+    .catch((err) => console.error(err))
+    .finally(() => {
+      editProfilePopup.setLoadingState(false);
+    });
+});
 
 editProfilePopup.setEventListeners();
 
@@ -204,9 +198,7 @@ const imagePopup = new PopupWithImage("#modal-image-inspect");
 imagePopup.setEventListeners();
 
 const profileNameInput = document.querySelector("#profile-name-input");
-const profileDescriptionInput = document.querySelector(
-  "#profile-description-input"
-);
+const profileDescriptionInput = document.querySelector("#profile-description-input");
 
 // Event Listeners
 profileEditButton.addEventListener("click", () => {
@@ -227,46 +219,62 @@ addNewCardButton.addEventListener("click", () => {
   addCardPopup.open();
 });
 
-document
-  .querySelectorAll(validationConfig.formSelector)
-  .forEach((formElement) => {
-    const formValidator = new FormValidator(validationConfig, formElement);
-    formValidator.enableValidation();
-  });
+document.querySelectorAll(validationConfig.formSelector).forEach((formElement) => {
+  const formValidator = new FormValidator(validationConfig, formElement);
+  formValidator.enableValidation();
+});
 
 const syncInitialCards = async () => {
+  if (isInitialCardsSynced()) {
+    console.log("Initial cards are already synced");
+    return;
+  }
+
   try {
-    // Fetch server cards
     const serverCards = await api.getInitialCards();
-    const serverCardIds = serverCards.map(card => card._id);
+    const serverCardIds = serverCards.map((card) => card._id);
+    const cardsToAdd = initialCards.filter((card) => !serverCardIds.includes(card._id));
 
-    // Filter out initialCards that are not already on the server
-    const cardsToAdd = initialCards.filter(card => !serverCardIds.includes(card._id));
-
-    // Add filtered initialCards to the server
-    const addCardPromises = cardsToAdd.map(card => {
-      return api.addCard({
-        name: card.name,
-        link: card.link
+    if (cardsToAdd.length > 0) {
+      const addCardPromises = cardsToAdd.map((card) => {
+        console.log(`Adding card: ${card.name}`);
+        return api.addCard({
+          name: card.name,
+          link: card.link,
+        });
       });
-    });
 
-    await Promise.all(addCardPromises);
-    console.log('Initial cards synced successfully');
+      await Promise.all(addCardPromises);
+    }
+
+    setInitialCardsSynced();
+    console.log("Initial cards synced successfully");
   } catch (error) {
-    console.error('Error syncing initial cards:', error);
+    console.error("Error syncing initial cards:", error);
   }
 };
 
-// Call syncInitialCards, then fetch user info and cards data
-syncInitialCards()
-  .then(() => Promise.all([api.getUserInfo(), api.getInitialCards()]))
-  .then(([userData, fetchedCards]) => {
-    // Set user info and avatar
+const renderInitialCards = async () => {
+  try {
+    const fetchedCards = await api.getInitialCards();
+    fetchedCards.forEach((card) => renderCard(card));
+    console.log("Initial cards rendered successfully");
+  } catch (error) {
+    console.error("Error rendering initial cards:", error);
+  }
+};
+
+const initialize = async () => {
+  try {
+    await syncInitialCards();
+    const userData = await api.getUserInfo();
     userInfo.setUserInfo(userData.name, userData.about, userData._id);
     userInfo.setUserAvatar(userData.avatar);
+    await renderInitialCards();
+    console.log("Initialization complete");
+  } catch (error) {
+    console.error("Error initializing application:", error);
+  }
+};
 
-    // Render fetched cards
-    fetchedCards.forEach(card => renderCard(card));
-  })
-  .catch(error => console.error('Error fetching initial data:', error));
+initialize();
