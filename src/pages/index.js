@@ -1,6 +1,6 @@
 import { validationConfig } from "../utils/constants.js";
 import { api } from "../components/Api.js";
-import Card from "../components/Card.js";
+import Card from "../components/card.js"; 
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
@@ -223,3 +223,19 @@ const initialize = async () => {
 };
 
 initialize();
+
+// Back to Top button functionality
+const backToTopBtn = document.getElementById("backToTopBtn");
+
+window.onscroll = function() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    backToTopBtn.style.display = "block";
+  } else {
+    backToTopBtn.style.display = "none";
+  }
+};
+
+backToTopBtn.onclick = function() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+};
