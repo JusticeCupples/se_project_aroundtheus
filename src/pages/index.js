@@ -239,3 +239,34 @@ backToTopBtn.onclick = function() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 };
+
+// Add this at the end of your file
+function addLastUpdatedTimestamp() {
+  const timestamp = document.createElement('div');
+  timestamp.classList.add('last-updated');
+  document.querySelector('footer').appendChild(timestamp);
+
+  const updateTime = new Date();
+
+  function updateTimestamp() {
+    const now = new Date();
+    const diff = now - updateTime;
+    let timeAgo;
+
+    if (diff < 60000) {
+      timeAgo = `${Math.floor(diff / 1000)} seconds ago`;
+    } else if (diff < 3600000) {
+      timeAgo = `${Math.floor(diff / 60000)} minutes ago`;
+    } else {
+      timeAgo = `${Math.floor(diff / 3600000)} hours ago`;
+    }
+
+    timestamp.textContent = `Last updated: ${timeAgo}`;
+  }
+
+  updateTimestamp();
+  setInterval(updateTimestamp, 5000); 
+}
+
+
+addLastUpdatedTimestamp();
