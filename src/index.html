@@ -20,13 +20,22 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="<%=require('./images/jacques-cousteau.svg')%>"
-            alt="profile image for jacques-cousteau"
-            class="profile__image"
-          />
+          <div class="profile__image-container">
+            <div class="profile__eclipse"></div>
+            <img
+              src="<%=require('./images/jacques-cousteau.svg')%>"
+              alt="profile image for jacques-cousteau"
+              class="profile__image"
+              id="profile-image"
+            />
+            <button
+              class="pfp__edit-button"
+              aria-label="edit"
+              type="button"
+            ></button>
+          </div>
           <div class="profile__info">
-            <h1 class="profile__name">Jacques Cousteaut</h1>
+            <h1 class="profile__name">Jacques Cousteau</h1>
             <button
               class="profile__edit-button"
               aria-label="edit"
@@ -47,6 +56,57 @@
       <footer class="footer page__section">
         <p class="footer__author">© 2022 Around The U.S.</p>
       </footer>
+    </div>
+    <!-- Edit PFP Modal -->
+    <div class="modal" id="modal-edit-pfp">
+      <div class="modal__container">
+        <button
+          class="modal__close modal__close-button modal__standard-button"
+          type="button"
+          title="close"
+          id="modal-standard-button"
+        ></button>
+        <p class="modal__heading">Change profile picture</p>
+        <form class="modal__form" id="edit-pfp-form">
+          <input
+            class="modal__input"
+            id="pfp-url-input"
+            type="url"
+            name="url"
+            placeholder="Image link"
+            required
+          />
+          <span class="modal__error" id="pfp-url-input-error"></span>
+          <button
+            class="modal__button modal__button_disabled"
+            type="submit"
+            title="close"
+            disabled
+          >
+            Save
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Are You Sure Modal -->
+    <div class="modal" id="modal-confirm-delete">
+      <div class="modal__container">
+        <button
+          class="modal__close modal__close-button modal__standard-button"
+          type="button"
+          title="close"
+          id="modal-standard-button"
+        ></button>
+        <p class="modal__heading">Are You Sure?</p>
+        <button
+          class="modal__button"
+          id="confirm-delete-button"
+          type="submit"
+          title="close"
+        >
+          Yes
+        </button>
+      </div>
     </div>
     <!-- Edit Modal -->
     <div class="modal" id="modal-edit-profile">
@@ -172,13 +232,18 @@
         ></button>
         <div class="card__description">
           <h2 class="card__text"></h2>
-          <button
-            class="card__like-button"
-            aria-label="like"
-            type="button"
-          ></button>
+          <div class="card__like-container">
+            <button
+              class="card__like-button"
+              aria-label="like"
+              type="button"
+              id="like-button"
+            ></button>
+          </div>
         </div>
       </li>
     </template>
+    <button id="backToTopBtn" class="back-to-top" title="Back to Top">↑</button>
+    <script src="./pages/index.js" type="module"></script>
   </body>
 </html>
