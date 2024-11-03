@@ -84,6 +84,11 @@ export default class Card {
       this._likeButton.classList.add("card__like-button_active");
     }
 
+    cardImageEl.classList.add('card__image-loading');
+    cardImageEl.onload = () => {
+      cardImageEl.classList.remove('card__image-loading');
+    };
+
     this._setEventListeners();
 
     return this._cardElement;
